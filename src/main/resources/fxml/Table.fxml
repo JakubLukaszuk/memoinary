@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<TableView GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="3" GridPane.rowSpan="6" fx:id="tableView" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nihillon.controller.MainFrameController" maxWidth="Infinity" maxHeight="Infinity">
+
+    <columns>
+        <TableColumn  text="category" fx:id="categoryColumn" maxWidth="Infinity"/>
+        <TableColumn  text="subcategory" fx:id="subCategoryColumn" maxWidth="Infinity"/>
+        <TableColumn  text="issue" fx:id="issueColumn" maxWidth="Infinity"/>
+        <TableColumn  text="mean" fx:id="meanColumn" maxWidth="Infinity"/>
+        <TableColumn  text="status" fx:id="statusColumn" maxWidth="Infinity"/>
+        <TableColumn  text="selection" fx:id="selectColumn" maxWidth="Infinity"/>
+
+    </columns>
+</TableView>
