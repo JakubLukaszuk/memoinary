@@ -4,7 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<TableView GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="3" GridPane.rowSpan="6" fx:id="tableView" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nihillon.controller.MainFrameController" maxWidth="Infinity" maxHeight="Infinity">
+<TableView GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="3" GridPane.rowSpan="2" fx:id="tableView" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nihillon.controller.MainFrameController" maxWidth="Infinity" maxHeight="Infinity">
 
     <columns>
         <TableColumn  text="category" fx:id="categoryColumn" maxWidth="Infinity"/>

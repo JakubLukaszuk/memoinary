@@ -1,27 +1,25 @@
 package com.nihillon.utils.converter;
 
-import com.j256.ormlite.dao.ForeignCollection;
 import com.nihillon.models.Category;
 import com.nihillon.models.SubCategory;
 import com.nihillon.models.Word;
-import com.nihillon.viewModel.CategoryModel;
 import com.nihillon.viewModel.CategoryView;
 import com.nihillon.viewModel.SubCategoryView;
 import com.nihillon.viewModel.WordView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 
 public class ToView {
+    private static DateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
     public static CategoryView toCategoryView(Category category){
         CategoryView categoryView = new CategoryView();
         categoryView.setCategoryName(category.getCategory());
         categoryView.setId(category.getId());
-        categoryView.setDescription(category.getDescription());
-        categoryView.setDateOfAddition(category.getDateOfAddition().toString());
+        categoryView.setDateOfAddition(formatter.format(category.getDateOfAddition()));
         ObservableList<SubCategoryView> subCategoryViewObservableList = FXCollections.observableArrayList();
         category.getSubCategoryForeignCollection().forEach(subCategory -> subCategoryViewObservableList.add(toSubCategorySimpleView(subCategory)));
         categoryView.setSubCategories(subCategoryViewObservableList);
@@ -39,11 +37,11 @@ public class ToView {
 
     public static SubCategoryView toSubCategorySimpleView(SubCategory subCategory){
         SubCategoryView subCategoryView = new SubCategoryView();
-        subCategoryView.setCategoryName(subCategory.getSubCategory());
+        subCategoryView.setSubCategoryName(subCategory.getSubCategory());
         subCategoryView.setId(subCategory.getId());
         subCategoryView.setCategoryId(subCategory.getCategory().getId());
         subCategoryView.setDescription(subCategory.getDescription());
-        subCategoryView.setDateOfAddition(subCategory.getDateOfAddition().toString());
+        subCategoryView.setDateOfAddition(formatter.format(subCategory.getDateOfAddition()));
         System.out.println(subCategoryView);
         return subCategoryView;
     }
@@ -52,10 +50,13 @@ public class ToView {
 
     public static WordView toWordView(Word word){
         WordView wordView = new WordView();
+        if (word.getCategory()!=null)
         wordView.setCategory(toCategoryView(word.getCategory()));
+        if (word.getSubCategory()!=null)
         wordView.setSubCategory(toSubCategoryView(word.getSubCategory()));
         wordView.setDateOfAddition(word.getDateOfAddition().toString());
         wordView.setIssue(word.getIssue());
+        if (!word.getKnowledgeStatus())
         wordView.setKnowledgeStatus(word.getKnowledgeStatus());
         wordView.setMean(word.getMean());
         wordView.setId(word.getId());

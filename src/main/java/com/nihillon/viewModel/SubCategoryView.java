@@ -1,16 +1,13 @@
 package com.nihillon.viewModel;
 
-import com.nihillon.models.SubCategory;
 import javafx.beans.property.*;
 import org.springframework.stereotype.Component;
-
-import java.util.Collection;
 
 @Component
 public class SubCategoryView {
     private IntegerProperty id;
     private IntegerProperty categoryId;
-    private StringProperty categoryName;
+    private StringProperty subCategoryName;
     private StringProperty description;
     private StringProperty dateOfAddition;
     private ObjectProperty<CategoryView> categoryViewObjectProperty;
@@ -18,7 +15,7 @@ public class SubCategoryView {
     public SubCategoryView() {
         id = new SimpleIntegerProperty();
         categoryId = new SimpleIntegerProperty();
-        categoryName = new SimpleStringProperty();
+        subCategoryName = new SimpleStringProperty();
         description = new SimpleStringProperty();
         dateOfAddition = new SimpleStringProperty();
         categoryViewObjectProperty = new SimpleObjectProperty<>();
@@ -60,16 +57,16 @@ public class SubCategoryView {
         this.categoryId.set(categoryId);
     }
 
-    public String getCategoryName() {
-        return categoryName.get();
+    public String getSubCategoryName() {
+        return subCategoryName.get();
     }
 
-    public StringProperty categoryNameProperty() {
-        return categoryName;
+    public StringProperty subCategoryNameProperty() {
+        return subCategoryName;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName.set(categoryName);
+    public void setSubCategoryName(String subCategoryName) {
+        this.subCategoryName.set(subCategoryName);
     }
 
     public String getDescription() {
@@ -98,6 +95,6 @@ public class SubCategoryView {
 
     @Override
     public String toString() {
-        return  categoryName.getValue();
+        return  subCategoryName.getValue();
     }
 }

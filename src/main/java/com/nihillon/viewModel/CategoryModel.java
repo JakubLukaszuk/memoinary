@@ -57,9 +57,9 @@ public class CategoryModel {
         Category category = new Category();
         category.setDescription(discription);
         category.setCategory(categoryName);
-        Date current = new Date();
-        category.setDateOfAddition(current);
+        category.setDateOfAddition(new Date());
         dao.createOrUpdate(category);
+        fillWithData();
 
     }
 

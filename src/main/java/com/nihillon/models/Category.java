@@ -24,7 +24,7 @@ public class Category implements BaseModel {
     private String description;
 
     @DatabaseField(columnName = "DATE_OF_ADDITION", dataType = DataType.DATE_STRING,
-            format = "yyyy-MM-dd HH:mm")
+            format = "dd-MMM-yy")
     private Date dateOfAddition;
 
     public int getId() {

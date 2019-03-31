@@ -25,7 +25,7 @@ public class Word implements BaseModel {
     private SubCategory subCategory;
 
     @DatabaseField(columnName = "DATE_OF_ADDITION", dataType = DataType.DATE_STRING,
-            format = "yyyy-MM-dd HH:mm")
+            format = "dd-MMM-yy")
     private Date dateOfAddition;
 
     @DatabaseField(columnName = "KNOWLADGE_STATUS")
