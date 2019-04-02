@@ -41,6 +41,11 @@ public class SubCategoryModel {
         fillWithData();
     }
 
+    public void deleteFromDataBaseById(SubCategoryView subCategoryView){
+        dao.deleteById(SubCategory.class, subCategoryView.getId());
+        fillWithData();
+    }
+
     public void deleteFromDataBaseById(){
         dao.deleteById(SubCategory.class, selcetedSubCategory.get().getId());
     }
@@ -49,6 +54,20 @@ public class SubCategoryModel {
         subCategoryViewList.clear();
         dao.queryForAll(SubCategory.class).forEach(subCategory -> subCategoryViewList.add(ToView.toSubCategoryView(subCategory)));
         System.out.println(subCategoryViewList);
+    }
+
+    public void deleteByCategory(CategoryView categoryView){
+        for (SubCategoryView subCat: categoryView.getSubCategories())
+        {
+            for (int i=0; i<subCategoryViewList.size(); i++)
+            {
+                if (subCat.getId() == subCategoryViewList.get(i).getId()){
+                    deleteFromDataBaseById(subCategoryViewList.get(i));
+                }
+            }
+        }
+        fillWithData();
+
     }
 
 

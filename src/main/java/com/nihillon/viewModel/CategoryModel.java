@@ -63,6 +63,12 @@ public class CategoryModel {
 
     }
 
+    public void deleteFromDataBaseById(CategoryView categoryView){
+//        CommonDao dao = new CommonDao();
+        dao.deleteById(Category.class, categoryView.getId());
+        fillWithData();
+    }
+
     public void deleteFromDataBaseById(){
 //        CommonDao dao = new CommonDao();
         dao.deleteById(Category.class, selcetedCategory.get().getId());

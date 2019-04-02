@@ -26,7 +26,6 @@ public class WordModel {
 
     private ObservableList<WordView> wordWiewList = FXCollections.observableArrayList();
     private ObjectProperty<WordView> selectedWord;
-    private List<WordView> selectedItems = new ArrayList<>();
 
     @Autowired
     public WordModel(CommonDao dao) {
@@ -48,10 +47,11 @@ public class WordModel {
         fillWithData();
     }
 
-    public void deleteFromDataBaseById(){
+    public void deleteFromDataBaseById(WordView wordView){
         CommonDao dao = new CommonDao();
-        dao.deleteById(Word.class, selectedWord.get().getId());
+        dao.deleteById(Word.class, wordView.getId());
     }
+
 
     public void fillWithData() {
 
@@ -60,7 +60,22 @@ public class WordModel {
         dao.queryForAll(Word.class).forEach(word->wordWiewList.add(ToView.toWordView(word)));
     }
 
-    public void setSelectedItems()
+//    public void setSelectedItems()
+////    {
+////        List<WordView> result = new LinkedList<>();
+////        for (WordView wordWiew : wordWiewList)
+////        {
+////            if (wordWiew.isChecked())
+////            {
+////                result.add(wordWiew);
+////            }
+////        }
+////        selectedItems = result;
+////        System.out.println(selectedItems);
+////
+////    }
+
+    private List<WordView> getSelectedItems()
     {
         List<WordView> result = new LinkedList<>();
         for (WordView wordWiew : wordWiewList)
@@ -70,9 +85,36 @@ public class WordModel {
                 result.add(wordWiew);
             }
         }
-        selectedItems = result;
+        return result;
 
     }
+
+    public void deleteSelectedWords()
+    {
+        getSelectedItems().forEach(this::deleteFromDataBaseById);
+        fillWithData();
+    }
+
+    public void deleteBySubCategory(SubCategoryView subCategoryView)
+    {
+        for (WordView wordView : wordWiewList) {
+            if (wordView.getSubCategory().getId() == subCategoryView.getId()){
+                deleteFromDataBaseById(wordView);
+            }
+        }
+        fillWithData();
+    }
+
+    public void deleteByCategory(CategoryView categoryView)
+    {
+        for (WordView wordView : wordWiewList) {
+            if (wordView.getCategory().getId() == categoryView.getId()){
+                deleteFromDataBaseById(wordView);
+            }
+        }
+        fillWithData();
+    }
+
 
     public void updateInDataBase(String word) {
 

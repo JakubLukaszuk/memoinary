@@ -270,7 +270,6 @@ public class MainFrameController {
         //selection column
         selectColumn.setCellValueFactory(cellData->new SimpleObjectProperty<>(cellData.getValue()));
         selectColumn.setCellFactory(cell-> new TableCell<WordView, WordView>(){
-            CheckBox checkBox = new CheckBox();
             @Override
             protected void updateItem(WordView item, boolean empty) {
                 super.updateItem(item, empty);
@@ -278,17 +277,19 @@ public class MainFrameController {
                     setGraphic(null);
                 }
                 else {
+                    CheckBox checkBox = new CheckBox();
                     checkBox.selectedProperty().bindBidirectional(item.checkedProperty());
                     checkBox.setOnAction(event -> {
                         if (checkBox.isSelected())
                         {
                             item.setChecked(true);
-                            wordModel.setSelectedItems();
+                            System.out.println("item:"+item);
+                            //wordModel.setSelectedItems();
                         }
                         else
                         {
                             item.setChecked(false);
-                            wordModel.setSelectedItems();
+                            //wordModel.setSelectedItems();
                         }
                     });
                     setGraphic(checkBox);
@@ -335,6 +336,36 @@ public class MainFrameController {
                subCategoryTextField.setText("");
                categoryModel.fillWithData();
                wordModel.fillWithData();
+        }
+    }
+
+    @FXML
+    private void deleteSelectedWords(ActionEvent actionEvent) {
+        wordModel.deleteSelectedWords();
+        tableView.refresh();
+    }
+
+    @FXML
+    private void deleteSubCategory(ActionEvent actionEvent) {
+        SubCategoryView subCategory = subCategoryChoiceBox.getSelectionModel().getSelectedItem();
+        if (subCategory!=null){
+            wordModel.deleteBySubCategory(subCategory);
+            tableView.refresh();
+            subCategoryModel.deleteFromDataBaseById(subCategory);
+            subCategoryChoiceBox.getItems().remove(subCategory);
+        }
+    }
+
+    @FXML
+    private void deleteCategory(ActionEvent actionEvent) {
+        CategoryView category = categoryChoiceBox.getSelectionModel().getSelectedItem();
+        if (category!=null){
+            wordModel.deleteByCategory(category);
+            tableView.refresh();
+            subCategoryModel.deleteByCategory(category);
+            category.getSubCategories().forEach(subCategoryView -> subCategoryChoiceBox.getItems().remove(subCategoryView));
+            categoryModel.deleteFromDataBaseById(category);
+            categoryChoiceBox.getItems().remove(category);
         }
     }
 }

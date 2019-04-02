@@ -42,7 +42,6 @@ public class ToView {
         subCategoryView.setCategoryId(subCategory.getCategory().getId());
         subCategoryView.setDescription(subCategory.getDescription());
         subCategoryView.setDateOfAddition(formatter.format(subCategory.getDateOfAddition()));
-        System.out.println(subCategoryView);
         return subCategoryView;
     }
 
