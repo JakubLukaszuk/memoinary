@@ -31,7 +31,7 @@ public class ToView {
     public static SubCategoryView toSubCategoryView(SubCategory subCategory){
         SubCategoryView subCategoryView = toSubCategorySimpleView(subCategory);
         subCategoryView.setCategoryViewObjectProperty(toCategoryView(subCategory.getCategory()));
-        System.out.println(subCategoryView);
+        //System.out.println(subCategoryView);
         return subCategoryView;
     }
 
@@ -53,7 +53,7 @@ public class ToView {
         wordView.setCategory(toCategoryView(word.getCategory()));
         if (word.getSubCategory()!=null)
         wordView.setSubCategory(toSubCategoryView(word.getSubCategory()));
-        wordView.setDateOfAddition(word.getDateOfAddition().toString());
+        wordView.setDateOfAddition(formatter.format(word.getDateOfAddition()));
         wordView.setIssue(word.getIssue());
         if (!word.getKnowledgeStatus())
         wordView.setKnowledgeStatus(word.getKnowledgeStatus());

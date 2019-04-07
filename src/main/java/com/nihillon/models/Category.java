@@ -31,6 +31,9 @@ public class Category implements BaseModel {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public ForeignCollection<SubCategory> getSubCategoryForeignCollection() {
         return subCategoryForeignCollection;
@@ -59,6 +62,10 @@ public class Category implements BaseModel {
 
     public void setDateOfAddition(Date dateOfAddition) {
         this.dateOfAddition = dateOfAddition;
+    }
+
+    public void setSubCategoryForeignCollection(ForeignCollection<SubCategory> subCategoryForeignCollection) {
+        this.subCategoryForeignCollection = subCategoryForeignCollection;
     }
 
     @Override

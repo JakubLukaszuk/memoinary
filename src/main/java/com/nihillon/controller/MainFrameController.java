@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 
 @Component
@@ -55,62 +56,81 @@ public class MainFrameController {
     private ChoiceBox<SubCategoryView> subCategoryChoiceBox;
 
 
-
     @Autowired
-    public MainFrameController(CategoryModel categoryModel, WordModel wordModel, SubCategoryModel subCategoryModel) {
+    public MainFrameController(CategoryModel categoryModel, WordModel wordModel, SubCategoryModel subCategoryModel)
+    {
         this.categoryModel = categoryModel;
         this.wordModel = wordModel;
         this.subCategoryModel = subCategoryModel;
     }
 
     @FXML
-    private void initialize() {
+    private void initialize()
+    {
 //
 //        categoryModel = new CategoryModel();
 //        wordModel = new WordModel();
 //        subCategoryModel = new SubCategoryModel();
-        wordModel.fillWithData();
+        try {
+            wordModel.fillWithData();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         categoryModel.fillWithData();
         subCategoryModel.fillWithData();
         fillTableWithData();
         tableView.setItems(wordModel.getWordWiewList());
         fiiComboBoxesWithData();
+
     }
 
     public void fillTableWithData() {
         //issue coulmn
         issueColumn.setCellValueFactory(cellData -> cellData.getValue().issueProperty());
-        issueColumn.setCellFactory(cell-> new TableCell<WordView, String>(){
+        issueColumn.setCellFactory(cell-> new TableCell<WordView, String>()
+        {
             TextField textField = new TextField();
-
             @Override
-            protected void updateItem(String item, boolean empty) {
+            protected void updateItem(String item, boolean empty)
+            {
                 super.updateItem(item, empty);
-                if (empty){
+                if (empty)
+                {
                     setGraphic(null);
                 }
                 else{
                     textProperty().bind(new SimpleStringProperty(item));
                     textField.setText(item);
+                    int index = this.getIndex();
 
-                    setOnMouseClicked(new EventHandler<MouseEvent>(){
+                    setOnMouseClicked(new EventHandler<MouseEvent>()
+                    {
                         @Override
                         public void handle(MouseEvent event) {
                             if (event.getClickCount() == 2 ) {
                                 setGraphic(textField);
-                                textField.setOnAction(new EventHandler<ActionEvent>() {
+                                textField.setOnAction(new EventHandler<ActionEvent>()
+                                {
                                     @Override
                                     public void handle(ActionEvent event) {
-                                        wordModel.setSelectedWord(tableView.getSelectionModel().selectedItemProperty().get());
-                                        wordModel.getSelectedWord().setMean(textField.getText());
+                                        String tmp = textField.getText();
+                                        if (!tmp.equals(item))
+                                        {
+                                            tableView.getSelectionModel().select(index); //block missclicks
+                                            WordView tmpWord = tableView.getSelectionModel().selectedItemProperty().get();
+                                            tmpWord.setIssue(tmp);
+
+                                            if (!wordModel.getModifed().contains(tmpWord))
+                                            {
+                                                wordModel.getModifed().add(tmpWord);
+                                            }
+                                        }
                                         setGraphic(null);
                                     }
                                 });
                             }
                         }
                     });
-
-
                 }
             }
         });
@@ -125,37 +145,48 @@ public class MainFrameController {
                 if (empty){
                     setGraphic(null);
                 }
-                else {
-                    Tooltip tooltip =new Tooltip("XDDD");
-                    setTooltip(tooltip);
+                else
+                    {
                     textProperty().bind(new SimpleStringProperty(item));
-
-
                     textField.setText(item);
+                    int index = this.getIndex();
 
-                    setOnMouseClicked(new EventHandler<MouseEvent>(){
+                    setOnMouseClicked(new EventHandler<MouseEvent>()
+                    {
                         @Override
-                        public void handle(MouseEvent event) {
-                            if (event.getClickCount() == 2 ) {
+                        public void handle(MouseEvent event)
+                        {
+                            if (event.getClickCount() == 2 )
+                            {
                                 setGraphic(textField);
-                                textField.setOnAction(new EventHandler<ActionEvent>() {
+                                textField.setOnAction(new EventHandler<ActionEvent>()
+                                {
                                     @Override
-                                    public void handle(ActionEvent event) {
+                                    public void handle(ActionEvent event)
+                                    {
+                                        String tmp = textField.getText();
+                                        if (!tmp.equals(item))
+                                        {
+                                            tableView.getSelectionModel().select(index); //block missclicks
+                                            WordView tmpWord = tableView.getSelectionModel().selectedItemProperty().get();
+                                            tmpWord.setMean(tmp);
+
+                                            if (!wordModel.getModifed().contains(tmpWord))
+                                            {
+                                                wordModel.getModifed().add(tmpWord);
+                                            }
+                                        }
                                         setGraphic(null);
                                     }
                                 });
 
-
                             }
                         }
                     });
-
-
                 }
-
             }
         });
-        //statusColumn
+        //knowladgeStatusColumn
         statusColumn.setCellValueFactory(cellData -> cellData.getValue().knowledgeStatusProperty());
         statusColumn.setCellFactory(cell->new TableCell<WordView, Boolean>(){
 
@@ -176,13 +207,23 @@ public class MainFrameController {
                         @Override
                         public void handle(MouseEvent event) {
                             if (event.getClickCount() == 2 ) {
-                                        if (!item)
-                                            textProperty().setValue("known");
-                                        else
-                                            textProperty().setValue("unknown");
+                                WordView tmpWord = tableView.getSelectionModel().selectedItemProperty().get();
+                                if (!item)
+                                {
+                                    textProperty().setValue("known");
+                                    tmpWord.setKnowledgeStatus(true);
+                                }
+                                else
+                                    {
+                                        textProperty().setValue("unknown");
+                                        tmpWord.setKnowledgeStatus(false);
+                                    }
 
+                                if (!wordModel.getModifed().contains(tmpWord))
+                                {
+                                    wordModel.getModifed().add(tmpWord);
+                                }
                             }
-                            tableView.getSelectionModel().getSelectedItem();
                         }
                     });
                 }
@@ -205,11 +246,18 @@ public class MainFrameController {
                     comboBox.valueProperty().addListener(new ChangeListener<CategoryView>() {
                         @Override
                         public void changed(ObservableValue<? extends CategoryView> observable, CategoryView oldValue, CategoryView newValue) {
-                            System.out.println("observale: "+observable+"odValue: "+oldValue+"newValue: "+newValue);
+                            //System.out.println("observale: "+observable.toString()+"odValue: "+oldValue.toString()+"newValue: "+newValue.toString());
+                            WordView tmpWord = tableView.getSelectionModel().selectedItemProperty().get();
+                            tmpWord.setCategory(newValue);
+                            tmpWord.setSubCategory(null);
+                            textProperty().bind(newValue.categoryNameProperty());
 
+                            if (!wordModel.getModifed().contains(tmpWord))
+                            {
+                                wordModel.getModifed().add(tmpWord);
+                            }
                         }
-                    }
-                    );
+                    });
 
                     setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
@@ -223,7 +271,6 @@ public class MainFrameController {
                                     }
                                 });
                             }
-                                tableView.getSelectionModel().getSelectedItem();
                         }
                     });
                 }
@@ -245,6 +292,16 @@ public class MainFrameController {
                     comboBox.valueProperty().addListener(new ChangeListener<SubCategoryView>() {
                         @Override
                         public void changed(ObservableValue<? extends SubCategoryView> observable, SubCategoryView oldValue, SubCategoryView newValue) {
+
+                                WordView tmpWord = tableView.getSelectionModel().selectedItemProperty().get();
+                                System.out.println("subkategoria "+newValue+"}"+newValue.getCategoryId());
+                                tmpWord.setSubCategory(newValue);
+                                textProperty().bind(new SimpleStringProperty(newValue.getSubCategoryName()));
+
+                                if (!wordModel.getModifed().contains(tmpWord))
+                                {
+                                    wordModel.getModifed().add(tmpWord);
+                                }
                         }
                     });
 
@@ -252,7 +309,7 @@ public class MainFrameController {
                         @Override
                         public void handle(MouseEvent event) {
                             if (event.getClickCount() == 2 ) {
-                                System.out.println(tableView.getSelectionModel().getSelectedItem().toString());
+                                //System.out.println(tableView.getSelectionModel().getSelectedItem().toString());
                                 comboBox.setItems(tableView.getSelectionModel().getSelectedItem().categoryProperty().getValue().getSubCategories());
                                 setGraphic(comboBox);
                                 comboBox.setOnAction(new EventHandler<ActionEvent>() {
@@ -283,7 +340,7 @@ public class MainFrameController {
                         if (checkBox.isSelected())
                         {
                             item.setChecked(true);
-                            System.out.println("item:"+item);
+                            //System.out.println("item:"+item);
                             //wordModel.setSelectedItems();
                         }
                         else
@@ -310,9 +367,15 @@ public class MainFrameController {
 
     @FXML
     private void saveWordToDB(ActionEvent actionEvent) {
-        try {
-            wordModel.saveToDataBase(issueTextFiled.getText(),meanTextField.getText(),categoryChoiceBox.getSelectionModel().getSelectedItem(),subCategoryChoiceBox.getSelectionModel().getSelectedItem(),isKnownCheckBox.isSelected() ) ;
-        } catch (ParseException e) {
+            try {
+                wordModel.saveToDataBase(issueTextFiled.getText(),meanTextField.getText(),categoryChoiceBox.getSelectionModel().getSelectedItem(),subCategoryChoiceBox.getSelectionModel().getSelectedItem(),isKnownCheckBox.isSelected() ) ;
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+            }
+            catch (ParseException e)
+            {
             e.printStackTrace();
         }
     }
@@ -323,7 +386,11 @@ public class MainFrameController {
         if (!StringUtils.isEmpty(tmpCategoryName)){
             categoryModel.saveToDataBase("tmp",tmpCategoryName);
             categoryTextField.setText("");
-            wordModel.fillWithData();
+            try {
+                wordModel.fillWithData();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -335,13 +402,21 @@ public class MainFrameController {
                subCategoryModel.saveToDataBase("descriptionTmp", tmpSubCategoryName, categoryTmp);
                subCategoryTextField.setText("");
                categoryModel.fillWithData();
-               wordModel.fillWithData();
+            try {
+                wordModel.fillWithData();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @FXML
     private void deleteSelectedWords(ActionEvent actionEvent) {
-        wordModel.deleteSelectedWords();
+        try {
+            wordModel.deleteSelectedWords();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         tableView.refresh();
     }
 
@@ -349,7 +424,11 @@ public class MainFrameController {
     private void deleteSubCategory(ActionEvent actionEvent) {
         SubCategoryView subCategory = subCategoryChoiceBox.getSelectionModel().getSelectedItem();
         if (subCategory!=null){
-            wordModel.deleteBySubCategory(subCategory);
+            try {
+                wordModel.deleteBySubCategory(subCategory);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             tableView.refresh();
             subCategoryModel.deleteFromDataBaseById(subCategory);
             subCategoryChoiceBox.getItems().remove(subCategory);
@@ -360,12 +439,36 @@ public class MainFrameController {
     private void deleteCategory(ActionEvent actionEvent) {
         CategoryView category = categoryChoiceBox.getSelectionModel().getSelectedItem();
         if (category!=null){
-            wordModel.deleteByCategory(category);
+            try {
+                wordModel.deleteByCategory(category);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             tableView.refresh();
-            subCategoryModel.deleteByCategory(category);
+            try {
+                subCategoryModel.deleteByCategory(category);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             category.getSubCategories().forEach(subCategoryView -> subCategoryChoiceBox.getItems().remove(subCategoryView));
             categoryModel.deleteFromDataBaseById(category);
             categoryChoiceBox.getItems().remove(category);
         }
+    }
+
+    @FXML
+    private void UpdateWordsInDB(ActionEvent actionEvent) {
+        try {
+            wordModel.updateInDataBase();
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+        }
+        tableView.refresh();
     }
 }

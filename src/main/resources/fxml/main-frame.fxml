@@ -49,8 +49,22 @@
           </Menu>
         </menus>
       </MenuBar>
-       <Button maxHeight="Infinity" maxWidth="Infinity" onAction="#saveWordToDB" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="2" />
-       <Button maxHeight="Infinity" maxWidth="Infinity" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="2" />
+       <GridPane GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
+           <rowConstraints>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" />
+               <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           </rowConstraints>
+           <columnConstraints>
+               <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+           </columnConstraints>
+           <children>
+               <Button maxHeight="Infinity" maxWidth="Infinity" onAction="#UpdateWordsInDB" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS"  GridPane.rowSpan="2" />
+               <Button maxHeight="Infinity" maxWidth="Infinity" onAction="#saveWordToDB" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS"  GridPane.rowSpan="2" />
+               <Button maxHeight="Infinity" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS"  GridPane.rowSpan="2" />
+           </children>
+       </GridPane>
        <TextField fx:id="issueTextFiled" GridPane.columnIndex="3" GridPane.columnSpan="6" GridPane.rowIndex="1" />
        <TextField fx:id="meanTextField" GridPane.columnIndex="3" GridPane.columnSpan="6" GridPane.rowIndex="2" />
        <Label text=" issue:" GridPane.columnIndex="2" GridPane.rowIndex="1" />

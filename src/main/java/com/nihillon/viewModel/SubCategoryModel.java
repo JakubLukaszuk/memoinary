@@ -1,6 +1,7 @@
 package com.nihillon.viewModel;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.misc.TransactionManager;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.nihillon.dao.CommonDao;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 @Component
 public class SubCategoryModel {
@@ -53,19 +55,31 @@ public class SubCategoryModel {
     public void fillWithData() {
         subCategoryViewList.clear();
         dao.queryForAll(SubCategory.class).forEach(subCategory -> subCategoryViewList.add(ToView.toSubCategoryView(subCategory)));
-        System.out.println(subCategoryViewList);
+        DbManager.closeConnection();
+        //System.out.println(subCategoryViewList);
     }
 
-    public void deleteByCategory(CategoryView categoryView){
-        for (SubCategoryView subCat: categoryView.getSubCategories())
-        {
-            for (int i=0; i<subCategoryViewList.size(); i++)
-            {
-                if (subCat.getId() == subCategoryViewList.get(i).getId()){
-                    deleteFromDataBaseById(subCategoryViewList.get(i));
-                }
-            }
-        }
+    public void deleteByCategory(CategoryView categoryView) throws SQLException {
+
+        TransactionManager.callInTransaction(DbManager.getConnectionSource(),
+                new Callable<Void>()
+                {
+                    public Void call() throws Exception
+                    {
+                        for (SubCategoryView subCat: categoryView.getSubCategories())
+                        {
+                            for (int i=0; i<subCategoryViewList.size(); i++)
+                            {
+                                if (subCat.getId() == subCategoryViewList.get(i).getId()){
+                                    deleteFromDataBaseById(subCategoryViewList.get(i));
+                                }
+                            }
+                        }
+                        return (Void) null;
+                    }
+                });
+
+
         fillWithData();
 
     }

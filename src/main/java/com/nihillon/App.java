@@ -48,7 +48,6 @@ public class App extends Application {
         word.setDateOfAddition(date);
         Category category = new Category();
         category.setCategory("kategoria");
-        System.out.println("data1:"+date);
         category.setDateOfAddition(date);
         category.setDescription("description");
         SubCategory subCategory = new SubCategory();

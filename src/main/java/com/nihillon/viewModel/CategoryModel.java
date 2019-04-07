@@ -78,6 +78,7 @@ public class CategoryModel {
 //        CommonDao dao = new CommonDao();
         categoryViewList.clear();
         dao.queryForAll(Category.class).forEach(category->categoryViewList.add(ToView.toCategoryView(category)));
+        DbManager.closeConnection();
     }
 
 
@@ -95,7 +96,7 @@ public class CategoryModel {
         queryBuilder.where().eq("WORD", dao.findByID(Category.class, selcetedCategory.get().getId()));
         PreparedQuery<Word> query = queryBuilder.prepare();
         DbManager.closeConnection();
-        System.out.println( wordDao.query(query));
+        //System.out.println( wordDao.query(query));
         return wordDao.query(query);
     }
 

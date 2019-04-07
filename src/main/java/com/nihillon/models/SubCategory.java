@@ -57,6 +57,10 @@ public class SubCategory implements BaseModel {
         return dateOfAddition;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public SubCategory() {
     }
 
