@@ -1,13 +1,12 @@
 package com.nihillon;
 
-import com.nihillon.controller.MainFrameController;
 import com.nihillon.dao.CommonDao;
 import com.nihillon.models.Category;
 import com.nihillon.models.SubCategory;
 import com.nihillon.models.Word;
 import com.nihillon.utils.DbManager;
-import com.nihillon.viewModel.CategoryModel;
-import com.nihillon.viewModel.CategoryView;
+import com.nihillon.utils.NotificationBar;
+import dorkbox.notify.Notify;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,14 +15,17 @@ import javafx.stage.Stage;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-
 import java.io.IOException;
 import java.util.Date;
+
+
 
 
 @SpringBootApplication
 public class App extends Application {
 
+
+    private NotificationBar notify;
     private ConfigurableApplicationContext springContext;
     private Parent rootNode;
     private FXMLLoader fxmlLoader;
@@ -34,6 +36,8 @@ public class App extends Application {
 
     @Override
     public void init(){
+        notify= new NotificationBar();
+        notify.test();
         springContext = SpringApplication.run(App.class);
         fxmlLoader = new FXMLLoader();
         fxmlLoader.setControllerFactory(springContext::getBean);
@@ -84,17 +88,18 @@ public class App extends Application {
         fxmlLoader.setLocation(getClass().getResource("/fxml/main-frame.fxml"));
         rootNode = fxmlLoader.load();
 
-
-
         primaryStage.setTitle("Memoinary");
         primaryStage.setResizable(false);
         Scene scene = new Scene(rootNode);
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
         primaryStage.show();
+        notify.test();
 
-        
+
     }
+
+
 
     @Override
     public void stop(){

@@ -23,7 +23,6 @@ repositories {
 dependencies{
     compile("org.springframework.boot:spring-boot-starter")
     compile("org.springframework.boot:spring-boot-starter-logging")
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.16 '
 
     compile group: 'javax.el', name: 'javax.el-api', version: '3.0.0'
     

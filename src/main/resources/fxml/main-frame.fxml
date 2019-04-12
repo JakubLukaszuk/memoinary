@@ -39,6 +39,7 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
                 <MenuItem mnemonicParsing="false" text="Delete selcted words" onAction="#deleteSelectedWords" />
+                <MenuItem mnemonicParsing="false" text="Set notifications" onAction="#setNotifications" />
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
@@ -62,7 +63,7 @@
            <children>
                <Button maxHeight="Infinity" maxWidth="Infinity" onAction="#UpdateWordsInDB" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS"  GridPane.rowSpan="2" />
                <Button maxHeight="Infinity" maxWidth="Infinity" onAction="#saveWordToDB" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS"  GridPane.rowSpan="2" />
-               <Button maxHeight="Infinity" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS"  GridPane.rowSpan="2" />
+               <Button maxHeight="Infinity" maxWidth="Infinity" onAction="#serchWords" GridPane.columnIndex="2" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS"  GridPane.rowSpan="2" />
            </children>
        </GridPane>
        <TextField fx:id="issueTextFiled" GridPane.columnIndex="3" GridPane.columnSpan="6" GridPane.rowIndex="1" />

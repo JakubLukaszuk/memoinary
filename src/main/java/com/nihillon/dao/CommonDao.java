@@ -20,6 +20,10 @@ public class CommonDao {
         this.connectionSource = DbManager.getConnectionSource();
     }
 
+    public CommonDao(ConnectionSource connectionSource) {
+        this.connectionSource = connectionSource;
+    }
+
 
     public <T extends BaseModel, U> void createOrUpdate( BaseModel objectToUpdateOrCreate)  {
         Dao<T, U> dao = (Dao<T, U>) getDao(objectToUpdateOrCreate.getClass());

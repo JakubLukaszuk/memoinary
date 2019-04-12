@@ -1,6 +1,9 @@
 package com.nihillon.viewModel;
 
+import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.misc.TransactionManager;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.nihillon.dao.CommonDao;
 import com.nihillon.models.Word;
 import com.nihillon.utils.DbManager;
@@ -31,6 +34,7 @@ public class WordModel {
     public void saveToDataBase(String mean, String word, CategoryView categoryView, SubCategoryView subCategoryView, boolean status) throws ParseException, SQLException {
         Word wordToSave = new Word();
         Date current = new Date();
+
         subCategoryView.setCategoryViewObjectProperty(categoryView);
         wordToSave.setDateOfAddition(current);
         wordToSave.setMean(mean);
@@ -156,6 +160,61 @@ public class WordModel {
 
     public List<WordView> getModifed() {
         return modifed;
+    }
+
+    public void filtrWords(String mean, String issue, CategoryView categoryView, SubCategoryView subCategoryView) throws SQLException, ParseException {
+        System.out.println("mean: "+mean+" issue: "+issue+" categoryView: "+categoryView+" subCateogory: "+subCategoryView );
+        fillWithData();
+        if (categoryView!=null)
+            filtrByCategory(categoryView, subCategoryView);
+        if (!mean.equals("") || !issue.equals(""))
+            filtrByWords(mean, issue);
+    }
+
+    private void filtrByCategory(CategoryView categoryView, SubCategoryView subCategoryView) throws SQLException, ParseException
+    {
+        List<WordView> result = new LinkedList<>();
+
+        if (subCategoryView != null) {
+            for (WordView word : wordWiewList) {
+                if (word.getSubCategory() == subCategoryView)
+                    result.add(word);
+            }
+
+        } else if (categoryView != null) {
+            for (WordView word : wordWiewList) {
+                if (word.getCategory() == categoryView)
+                    result.add(word);
+            }
+        }
+        wordWiewList.clear();
+        wordWiewList.addAll(result);
+    }
+
+    private void filtrByWords(String mean, String issue)
+    {
+        List<WordView> result = new LinkedList<>();
+
+        if (!mean.equals("") && issue.equals("")){
+            for (WordView word: wordWiewList) {
+                if (word.getMean().contains(mean))
+                    result.add(word);
+            }
+        }
+        else{
+            for (WordView word: wordWiewList) {
+                if (word.getIssue().contains(issue))
+                    result.add(word);
+            }
+        }
+        if (!issue.equals("") && !issue.equals("")){
+            for (WordView word: wordWiewList) {
+                if (word.getIssue().contains(issue) && !word.getMean().contains(mean))
+                    result.add(word);
+            }
+        }
+        wordWiewList.clear();
+        wordWiewList.addAll(result);
     }
 
 

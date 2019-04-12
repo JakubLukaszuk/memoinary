@@ -8,15 +8,23 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class MainFrameController {
@@ -56,8 +64,9 @@ public class MainFrameController {
     private ChoiceBox<SubCategoryView> subCategoryChoiceBox;
 
 
+
     @Autowired
-    public MainFrameController(CategoryModel categoryModel, WordModel wordModel, SubCategoryModel subCategoryModel)
+    public MainFrameController(CategoryModel categoryModel, WordModel wordModel, SubCategoryModel subCategoryModel )
     {
         this.categoryModel = categoryModel;
         this.wordModel = wordModel;
@@ -81,6 +90,7 @@ public class MainFrameController {
         fillTableWithData();
         tableView.setItems(wordModel.getWordWiewList());
         fiiComboBoxesWithData();
+
 
     }
 
@@ -470,5 +480,55 @@ public class MainFrameController {
             e.printStackTrace();
         }
         tableView.refresh();
+    }
+
+    @FXML
+    private void serchWords(ActionEvent actionEvent) {
+        try {
+            wordModel.filtrWords(meanTextField.getText(),issueTextFiled.getText(),categoryChoiceBox.getValue(), subCategoryChoiceBox.getValue());
+            tableView.refresh();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //tableView.refresh();
+    }
+
+    @FXML
+    private
+    void setNotifications(ActionEvent actionEvent) {
+        final String FXML_NOTIFICATION_DIALOG_FXML = "/fxml/NotificationOptions.fxml";
+        FXMLLoader fxmlLoader = new FXMLLoader();
+
+        fxmlLoader.setLocation(getClass().getResource(FXML_NOTIFICATION_DIALOG_FXML));
+
+        Parent dialog = null;
+        try {
+            dialog = fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        NotifiactionOptionController notificationDialogController = fxmlLoader.getController();
+        List<WordView> wordViewListTmp = new ArrayList<>();
+        for (WordView word: wordModel.getWordWiewList()) {
+            if (word.isChecked())
+                wordViewListTmp.add(word);
+        }
+        if (wordViewListTmp.size()>0){
+            notificationDialogController.setWordsToDisplay(wordViewListTmp);
+
+
+            Scene scene =null;
+            assert dialog != null;
+            scene = new Scene(dialog);
+
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        }
     }
 }

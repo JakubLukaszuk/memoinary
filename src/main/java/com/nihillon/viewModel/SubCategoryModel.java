@@ -61,24 +61,15 @@ public class SubCategoryModel {
 
     public void deleteByCategory(CategoryView categoryView) throws SQLException {
 
-        TransactionManager.callInTransaction(DbManager.getConnectionSource(),
-                new Callable<Void>()
-                {
-                    public Void call() throws Exception
-                    {
-                        for (SubCategoryView subCat: categoryView.getSubCategories())
-                        {
-                            for (int i=0; i<subCategoryViewList.size(); i++)
-                            {
-                                if (subCat.getId() == subCategoryViewList.get(i).getId()){
-                                    deleteFromDataBaseById(subCategoryViewList.get(i));
-                                }
-                            }
-                        }
-                        return (Void) null;
-                    }
-                });
-
+        for (SubCategoryView subCat: categoryView.getSubCategories())
+        {
+            for (int i=0; i<subCategoryViewList.size(); i++)
+            {
+                if (subCat.getId() == subCategoryViewList.get(i).getId()){
+                    deleteFromDataBaseById(subCategoryViewList.get(i));
+                }
+            }
+        }
 
         fillWithData();
 
