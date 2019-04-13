@@ -12,6 +12,9 @@ import java.util.TimerTask;
 
 public class NotificationBar {
 
+    private static Object mutex = new Object();
+    private  static  volatile NotificationBar instance;
+
     private boolean workFlag;
 
     public void setWorkFlag(boolean workFlag) {
@@ -20,6 +23,18 @@ public class NotificationBar {
 
     public NotificationBar() {
 
+    }
+
+    public static NotificationBar getInstance() {
+        NotificationBar result = instance;
+        if (result == null) {
+            synchronized (mutex) {
+                result = instance;
+                if (result == null)
+                    instance = result = new NotificationBar();
+            }
+        }
+        return result;
     }
 
     public  void generateNotifiacations(int interval, int period, List<WordView> selectedItems)
@@ -31,14 +46,8 @@ public class NotificationBar {
                 public void run() {
                     if (workFlag) {
                         int index = (int) (Math.random() * (selectedItems.size()));
-                        try {
                             String message = String.format("%s - %s", selectedItems.get(index).getIssue(), selectedItems.get(index).getMean());
                             displayTray(message, period);
-                        } catch (AWTException e) {
-                            e.printStackTrace();
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        }
                     } else {
                         this.cancel();
                     }
@@ -47,12 +56,12 @@ public class NotificationBar {
         }
         else
         {
-
+            DialogUtils.confirmDialog("Word list must be bigger than 0", "Word list is empty");
         }
     }
 
 
-    private void displayTray(String message, int toAutoClose) throws AWTException, MalformedURLException {
+    public void displayTray(String message, int toAutoClose) {
         //Obtain only one instance of the SystemTray object
         Notify.create()
                 .title("ULTIMATE DICTOINARY")
@@ -60,16 +69,14 @@ public class NotificationBar {
                 .darkStyle()
                 .hideAfter(toAutoClose)
                 .showWarning();
-
     }
 
-    public void test(){
-        Notify.create()
-                .title("ULTIMATE DICTOINARY")
-                .text("TEST")
-                .darkStyle()
-                .showWarning();
+    public void init()
+    {
+        Notify.create().show();
     }
+
+
 }
 
 

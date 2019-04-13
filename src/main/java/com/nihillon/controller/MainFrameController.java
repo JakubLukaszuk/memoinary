@@ -1,5 +1,8 @@
 package com.nihillon.controller;
 
+import com.nihillon.utils.DialogUtils;
+import com.nihillon.utils.NotificationBar;
+import com.nihillon.utils.file.LoggerWriter;
 import com.nihillon.viewModel.*;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -32,6 +35,7 @@ public class MainFrameController {
     private final CategoryModel categoryModel;
     private final WordModel wordModel;
     private final SubCategoryModel subCategoryModel;
+    private final LoggerWriter logger;
     @FXML
     private TextField subCategoryTextField;
     @FXML
@@ -71,6 +75,7 @@ public class MainFrameController {
         this.categoryModel = categoryModel;
         this.wordModel = wordModel;
         this.subCategoryModel = subCategoryModel;
+        logger = new LoggerWriter();
     }
 
     @FXML
@@ -84,6 +89,8 @@ public class MainFrameController {
             wordModel.fillWithData();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.writeLog("execetion at initialize", e);
+            DialogUtils.errorDialog("error data reading","reading from db error", e);
         }
         categoryModel.fillWithData();
         subCategoryModel.fillWithData();
@@ -377,16 +384,23 @@ public class MainFrameController {
 
     @FXML
     private void saveWordToDB(ActionEvent actionEvent) {
+
+        String tmpIssue = issueTextFiled.getText(), tmpMean = meanTextField.getText();
+        if (!StringUtils.isEmpty(tmpIssue) || !StringUtils.isEmpty(tmpMean))
             try {
                 wordModel.saveToDataBase(issueTextFiled.getText(),meanTextField.getText(),categoryChoiceBox.getSelectionModel().getSelectedItem(),subCategoryChoiceBox.getSelectionModel().getSelectedItem(),isKnownCheckBox.isSelected() ) ;
             }
             catch (SQLException e)
             {
                 e.printStackTrace();
+                logger.writeLog("execetion at saving word", e);
+                DialogUtils.errorDialog("error data writing","writing to db error", e);
             }
             catch (ParseException e)
             {
             e.printStackTrace();
+                logger.writeLog("execetion at saving to DB", e);
+                DialogUtils.errorDialog("saving to data base error","word is not saved", e);
         }
     }
     @FXML
@@ -400,6 +414,8 @@ public class MainFrameController {
                 wordModel.fillWithData();
             } catch (SQLException e) {
                 e.printStackTrace();
+                logger.writeLog("execetion at saving category", e);
+                DialogUtils.errorDialog("error data writing","writing to db error", e);
             }
         }
     }
@@ -416,6 +432,8 @@ public class MainFrameController {
                 wordModel.fillWithData();
             } catch (SQLException e) {
                 e.printStackTrace();
+                logger.writeLog("execetion at saving subcategory", e);
+                DialogUtils.errorDialog("error data writing","writing to db error", e);
             }
         }
     }
@@ -426,6 +444,8 @@ public class MainFrameController {
             wordModel.deleteSelectedWords();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.writeLog("execetion at deleating selected words", e);
+            DialogUtils.errorDialog("error data deleting from data base","deleting from database error", e);
         }
         tableView.refresh();
     }
@@ -438,6 +458,8 @@ public class MainFrameController {
                 wordModel.deleteBySubCategory(subCategory);
             } catch (SQLException e) {
                 e.printStackTrace();
+                logger.writeLog("execetion at deleating subCategory", e);
+                DialogUtils.errorDialog("error data deleting from data base","deleting from database error", e);
             }
             tableView.refresh();
             subCategoryModel.deleteFromDataBaseById(subCategory);
@@ -452,12 +474,15 @@ public class MainFrameController {
             try {
                 wordModel.deleteByCategory(category);
             } catch (SQLException e) {
-                e.printStackTrace();
+                logger.writeLog("execetion at deleating Category", e);
+                DialogUtils.errorDialog("error data deleting from data base","deleting from database error", e);
             }
             tableView.refresh();
             try {
                 subCategoryModel.deleteByCategory(category);
             } catch (SQLException e) {
+                logger.writeLog("execetion at deleating SubCategory from Catrogry", e);
+                DialogUtils.errorDialog("error data deleting from data base","deleting from database error", e);
                 e.printStackTrace();
             }
             category.getSubCategories().forEach(subCategoryView -> subCategoryChoiceBox.getItems().remove(subCategoryView));
@@ -474,10 +499,14 @@ public class MainFrameController {
         catch (ParseException e)
         {
             e.printStackTrace();
+            logger.writeLog("exception parse at updating Words in to database", e);
+            DialogUtils.errorDialog("error at updating database","update database error", e);
         }
         catch (SQLException e)
         {
             e.printStackTrace();
+            logger.writeLog("exception sql at updating Words in to database", e);
+            DialogUtils.errorDialog("error at updating database","update database error", e);
         }
         tableView.refresh();
     }
@@ -489,8 +518,13 @@ public class MainFrameController {
             tableView.refresh();
         } catch (SQLException e) {
             e.printStackTrace();
+            logger.writeLog("exception SQL at serching Words", e);
+            DialogUtils.errorDialog("error at downloading data from database","download data database error", e);
+
         } catch (ParseException e) {
             e.printStackTrace();
+            logger.writeLog("exception parse at serching Words", e);
+            DialogUtils.errorDialog("error at searching data from database","searching data from database error", e);
         }
         //tableView.refresh();
     }
@@ -530,5 +564,21 @@ public class MainFrameController {
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
         }
+    }
+
+    @FXML
+    private void setOffNotifications(ActionEvent actionEvent) {
+        NotificationBar.getInstance().setWorkFlag(false);
+    }
+
+    @FXML
+    private void clearSubCategoryBox(ActionEvent actionEvent) {
+        subCategoryChoiceBox.getSelectionModel().select(null);
+    }
+
+    @FXML
+    private void clearCategoryBox(ActionEvent actionEvent) {
+        categoryChoiceBox.getSelectionModel().select(null);
+        subCategoryChoiceBox.getSelectionModel().select(null);
     }
 }

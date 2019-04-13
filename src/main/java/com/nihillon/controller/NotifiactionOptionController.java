@@ -34,9 +34,6 @@ public class NotifiactionOptionController {
         showTimeList.add(3);
         showTimeList.add(4);
         showTimeList.add(5);
-        showTimeList.add(8);
-        showTimeList.add(10);
-
 
         List<Integer> nextShowTimeList = new ArrayList<>();
         nextShowTimeList.add(5);
@@ -61,9 +58,8 @@ public class NotifiactionOptionController {
 
     @FXML
     private void startNotification(ActionEvent actionEvent) {
-        notificationBar = new NotificationBar();
-        notificationBar.setWorkFlag(true);
-        notificationBar.generateNotifiacations((int)intervalComboBox.getSelectionModel().getSelectedItem()*1000, (int)displayTimeComboBox.getSelectionModel().getSelectedItem()*1000, wordsToDisplay);
+        NotificationBar.getInstance().setWorkFlag(true);
+        NotificationBar.getInstance().generateNotifiacations((int)intervalComboBox.getSelectionModel().getSelectedItem()*1000, (int)displayTimeComboBox.getSelectionModel().getSelectedItem()*1000, wordsToDisplay);
         Stage stage = (Stage) displayTimeComboBox.getScene().getWindow();
         stage.close();
     }

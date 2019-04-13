@@ -35,12 +35,17 @@ public class WordModel {
         Word wordToSave = new Word();
         Date current = new Date();
 
+        if (subCategoryView!=null)
         subCategoryView.setCategoryViewObjectProperty(categoryView);
         wordToSave.setDateOfAddition(current);
+        if (mean!=null)
         wordToSave.setMean(mean);
+        if (word!=null)
         wordToSave.setIssue(word);
         wordToSave.setKnowledgeStatus(status);
+        if (categoryView!=null)
         wordToSave.setCategory( ToModel.toCategory(categoryView));
+        if (subCategoryView!=null)
         wordToSave.setSubCategory(ToModel.toSubCategory(subCategoryView));
         dao.createOrUpdate(wordToSave);
         fillWithData();

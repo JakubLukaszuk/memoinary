@@ -40,6 +40,7 @@
             <items>
                 <MenuItem mnemonicParsing="false" text="Delete selcted words" onAction="#deleteSelectedWords" />
                 <MenuItem mnemonicParsing="false" text="Set notifications" onAction="#setNotifications" />
+                <MenuItem mnemonicParsing="false" text="Setoff notifications" onAction="#setOffNotifications" />
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
@@ -97,11 +98,13 @@
                <Button onAction="#saveCategoryToDB" text="+" GridPane.columnIndex="3" GridPane.rowIndex="2" />
                <ChoiceBox fx:id="categoryChoiceBox" maxWidth="Infinity" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="3" />
                <Button text="Delete" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="4" onAction="#deleteCategory" />
+               <Button text="clear" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4" onAction="#clearCategoryBox" />
                <Label text="SubCategory" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="6" />
                <TextField fx:id="subCategoryTextField" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="7" />
                <Button onAction="#saveSubCategoryToDB" text="+" GridPane.columnIndex="3" GridPane.rowIndex="7"/>
                <ChoiceBox fx:id="subCategoryChoiceBox" maxWidth="Infinity" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="8" />
                <Button text="Delete" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="9" onAction="#deleteSubCategory"/>
+               <Button text="clear" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="9" onAction="#clearSubCategoryBox"/>
                <CheckBox fx:id="isKnownCheckBox" text="Is issue known?" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="11" />
            </children>
        </GridPane>
