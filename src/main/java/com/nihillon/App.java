@@ -43,42 +43,42 @@ public class App extends Application {
         fxmlLoader.setControllerFactory(springContext::getBean);
         DbManager.initializeDatabase();
 
-//        CommonDao commonDao = new CommonDao();
-//        Word word = new Word();
-//        word.setIssue("Zagadnienie!!!!!!!!!!!!!!!");
-//        word.setKnowledgeStatus(false);
-//        word.setMean("nie wiem");
-//        Date date =new Date();
-//        word.setDateOfAddition(date);
-//        Category category = new Category();
-//        category.setCategory("kategoria");
-//        category.setDateOfAddition(date);
-//        category.setDescription("description");
-//        SubCategory subCategory = new SubCategory();
-//        subCategory.setCategory(category);
-//        subCategory.setSubCategory("podkategoria");
-//        subCategory.setDescription("deskrypaca");
-//        subCategory.setDateOfAddition(date);
-//        word.setCategory(category);
-//        word.setSubCategory(subCategory);
-//        commonDao.createOrUpdate( category);
-//        commonDao.createOrUpdate( subCategory);
-//        commonDao.createOrUpdate( word);
-//
-//        Word word1 = new Word();
-//        word1.setIssue("zagadnienie2");
-//        word1.setKnowledgeStatus(true);
-//        word1.setMean("XD");
-//        word1.setDateOfAddition(date);
-//        word1.setCategory(category);
-//        SubCategory subCategory1 = new SubCategory();
-//        subCategory1.setSubCategory("sub2");
-//        subCategory1.setDateOfAddition(date);
-//        subCategory1.setCategory(category);
-//        word1.setSubCategory(subCategory1);
-//        subCategory1.setDescription("xd");
-//        commonDao.createOrUpdate(subCategory1);
-//        commonDao.createOrUpdate(word1);
+        CommonDao commonDao = new CommonDao();
+        Word word = new Word();
+        word.setIssue("Zagadnienie!!!!!!!!!!!!!!!");
+        word.setKnowledgeStatus(false);
+        word.setMean("nie wiem");
+        Date date =new Date();
+        word.setDateOfAddition(date);
+        Category category = new Category();
+        category.setCategory("kategoria");
+        category.setDateOfAddition(date);
+        category.setDescription("description");
+        SubCategory subCategory = new SubCategory();
+        subCategory.setCategory(category);
+        subCategory.setSubCategory("podkategoria");
+        subCategory.setDescription("deskrypaca");
+        subCategory.setDateOfAddition(date);
+        word.setCategory(category);
+        word.setSubCategory(subCategory);
+        commonDao.createOrUpdate( category);
+        commonDao.createOrUpdate( subCategory);
+        commonDao.createOrUpdate( word);
+
+        Word word1 = new Word();
+        word1.setIssue("zagadnienie2");
+        word1.setKnowledgeStatus(true);
+        word1.setMean("XD");
+        word1.setDateOfAddition(date);
+        word1.setCategory(category);
+        SubCategory subCategory1 = new SubCategory();
+        subCategory1.setSubCategory("sub2");
+        subCategory1.setDateOfAddition(date);
+        subCategory1.setCategory(category);
+        word1.setSubCategory(subCategory1);
+        subCategory1.setDescription("xd");
+        commonDao.createOrUpdate(subCategory1);
+        commonDao.createOrUpdate(word1);
 
     }
 
@@ -92,6 +92,7 @@ public class App extends Application {
         primaryStage.setResizable(false);
         Scene scene = new Scene(rootNode);
         primaryStage.setScene(scene);
+        scene.getStylesheets().add(App.class.getResource("/css/style.css").toExternalForm());
         primaryStage.sizeToScene();
         primaryStage.show();
     }

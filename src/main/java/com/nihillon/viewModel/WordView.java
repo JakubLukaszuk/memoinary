@@ -12,8 +12,8 @@ public class WordView {
     private StringProperty dateOfAddition;
     private SimpleObjectProperty<CategoryView> category;
     private SimpleObjectProperty<SubCategoryView> subCategory;
-    private BooleanProperty checked = new SimpleBooleanProperty();
-
+    private BooleanProperty checked;
+    private BooleanProperty modifed;
 
 
     public WordView() {
@@ -24,6 +24,9 @@ public class WordView {
         dateOfAddition = new SimpleStringProperty();
         category = new SimpleObjectProperty<>();
         subCategory = new SimpleObjectProperty<>();
+        checked = new SimpleBooleanProperty();
+        modifed = new SimpleBooleanProperty();
+
     }
 
     public int getId() {
@@ -121,6 +124,18 @@ public class WordView {
 
     public void setSubCategory(SubCategoryView subCategory) {
         this.subCategory.set(subCategory);
+    }
+
+    public boolean isModifed() {
+        return modifed.get();
+    }
+
+    public BooleanProperty modifedProperty() {
+        return modifed;
+    }
+
+    public void setModifed(boolean modifed) {
+        this.modifed.set(modifed);
     }
 
     @Override

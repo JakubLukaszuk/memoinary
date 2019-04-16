@@ -24,7 +24,6 @@ public class WordModel {
     final private CommonDao dao;
 
     private ObservableList<WordView> wordWiewList = FXCollections.observableArrayList();
-    private List<WordView> modifed = new ArrayList<>();
 
     @Autowired
     public WordModel(CommonDao dao) {
@@ -148,14 +147,20 @@ public class WordModel {
                         {
                             public Void call() throws Exception
                             {
-                                for (WordView wordView: modifed) {
-                                    dao.createOrUpdate(ToModel.toWord(wordView));
+                                for (WordView wordView: wordWiewList) {
+                                    if (wordView.isModifed())
+                                        dao.createOrUpdate(ToModel.toWord(wordView));
+                                    wordView.setModifed(false);
                                 }
                                 return (Void) null;
                             }
                         });
-                modifed.clear();
+
                 fillWithData();
+    }
+
+    public void realoadDataFromDB() throws SQLException {
+        fillWithData();
     }
 
 
@@ -163,9 +168,6 @@ public class WordModel {
         return wordWiewList;
     }
 
-    public List<WordView> getModifed() {
-        return modifed;
-    }
 
     public void filtrWords(String mean, String issue, CategoryView categoryView, SubCategoryView subCategoryView) throws SQLException, ParseException {
         System.out.println("mean: "+mean+" issue: "+issue+" categoryView: "+categoryView+" subCateogory: "+subCategoryView );
@@ -220,6 +222,17 @@ public class WordModel {
         }
         wordWiewList.clear();
         wordWiewList.addAll(result);
+    }
+
+    public void repleaceByViewFromDB(WordView wordView){
+        WordView resived = ToView.toWordView(dao.findByID(Word.class, wordView.getId()));
+        if (resived!=null){
+            for (WordView word: wordWiewList) {
+                if (word.getId() == resived.getId()){
+                    Collections.replaceAll(wordWiewList, word, resived);
+                }
+            }
+        }
     }
 
 

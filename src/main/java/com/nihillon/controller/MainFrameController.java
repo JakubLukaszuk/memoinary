@@ -1,5 +1,6 @@
 package com.nihillon.controller;
 
+import com.nihillon.App;
 import com.nihillon.utils.DialogUtils;
 import com.nihillon.utils.NotificationBar;
 import com.nihillon.utils.file.LoggerWriter;
@@ -36,32 +37,23 @@ public class MainFrameController {
     private final WordModel wordModel;
     private final SubCategoryModel subCategoryModel;
     private final LoggerWriter logger;
+
     @FXML
-    private TextField subCategoryTextField;
-    @FXML
-    private TextField categoryTextField;
+    private TextField subCategoryTextField, categoryTextField, meanTextField, issueTextFiled;
     @FXML
     private CheckBox isKnownCheckBox;
-    @FXML
-    private TextField meanTextField;
-    @FXML
-    private TextField issueTextFiled;
     @FXML
     private MenuBar menuBar;
     @FXML
     private TableView<WordView> tableView;
     @FXML
-    private TableColumn<WordView, String> issueColumn;
-    @FXML
-    private TableColumn<WordView, String> meanColumn;
+    private TableColumn<WordView, String> issueColumn, meanColumn;
     @FXML
     private TableColumn<WordView, Boolean> statusColumn;
     @FXML
-    private TableColumn<WordView, String> categoryColumn;
+    private TableColumn<WordView, String> categoryColumn, subCategoryColumn;
     @FXML
-    private TableColumn<WordView, String> subCategoryColumn;
-    @FXML
-    private TableColumn<WordView, WordView> selectColumn;
+    private TableColumn<WordView, WordView> selectColumn, updateToColumn;
     @FXML
     private ChoiceBox<CategoryView> categoryChoiceBox;
     @FXML
@@ -101,7 +93,7 @@ public class MainFrameController {
 
     }
 
-    public void fillTableWithData() {
+    private void fillTableWithData() {
         //issue coulmn
         issueColumn.setCellValueFactory(cellData -> cellData.getValue().issueProperty());
         issueColumn.setCellFactory(cell-> new TableCell<WordView, String>()
@@ -119,6 +111,7 @@ public class MainFrameController {
                     textProperty().bind(new SimpleStringProperty(item));
                     textField.setText(item);
                     int index = this.getIndex();
+                    TableRow row = this.getTableRow();
 
                     setOnMouseClicked(new EventHandler<MouseEvent>()
                     {
@@ -130,17 +123,14 @@ public class MainFrameController {
                                 {
                                     @Override
                                     public void handle(ActionEvent event) {
+
                                         String tmp = textField.getText();
                                         if (!tmp.equals(item))
                                         {
                                             tableView.getSelectionModel().select(index); //block missclicks
                                             WordView tmpWord = tableView.getSelectionModel().selectedItemProperty().get();
                                             tmpWord.setIssue(tmp);
-
-                                            if (!wordModel.getModifed().contains(tmpWord))
-                                            {
-                                                wordModel.getModifed().add(tmpWord);
-                                            }
+                                            tmpWord.setModifed(true);
                                         }
                                         setGraphic(null);
                                     }
@@ -188,10 +178,7 @@ public class MainFrameController {
                                             WordView tmpWord = tableView.getSelectionModel().selectedItemProperty().get();
                                             tmpWord.setMean(tmp);
 
-                                            if (!wordModel.getModifed().contains(tmpWord))
-                                            {
-                                                wordModel.getModifed().add(tmpWord);
-                                            }
+                                            tmpWord.setModifed(true);
                                         }
                                         setGraphic(null);
                                     }
@@ -236,10 +223,7 @@ public class MainFrameController {
                                         tmpWord.setKnowledgeStatus(false);
                                     }
 
-                                if (!wordModel.getModifed().contains(tmpWord))
-                                {
-                                    wordModel.getModifed().add(tmpWord);
-                                }
+                                tmpWord.setModifed(true);
                             }
                         }
                     });
@@ -268,11 +252,7 @@ public class MainFrameController {
                             tmpWord.setCategory(newValue);
                             tmpWord.setSubCategory(null);
                             textProperty().bind(newValue.categoryNameProperty());
-
-                            if (!wordModel.getModifed().contains(tmpWord))
-                            {
-                                wordModel.getModifed().add(tmpWord);
-                            }
+                            tmpWord.setModifed(true);
                         }
                     });
 
@@ -311,14 +291,9 @@ public class MainFrameController {
                         public void changed(ObservableValue<? extends SubCategoryView> observable, SubCategoryView oldValue, SubCategoryView newValue) {
 
                                 WordView tmpWord = tableView.getSelectionModel().selectedItemProperty().get();
-                                System.out.println("subkategoria "+newValue+"}"+newValue.getCategoryId());
                                 tmpWord.setSubCategory(newValue);
                                 textProperty().bind(new SimpleStringProperty(newValue.getSubCategoryName()));
-
-                                if (!wordModel.getModifed().contains(tmpWord))
-                                {
-                                    wordModel.getModifed().add(tmpWord);
-                                }
+                                tmpWord.setModifed(true);
                         }
                     });
 
@@ -366,6 +341,24 @@ public class MainFrameController {
                             //wordModel.setSelectedItems();
                         }
                     });
+                    setGraphic(checkBox);
+                    setAlignment(Pos.CENTER);
+                }
+            }
+        });
+        //update column
+        updateToColumn.setCellValueFactory(cellData->new SimpleObjectProperty<>(cellData.getValue()));
+        updateToColumn.setCellFactory(cell-> new TableCell<WordView, WordView>(){
+            @Override
+            protected void updateItem(WordView item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty){
+                    setGraphic(null);
+                }
+                else {
+                    CheckBox checkBox = new CheckBox();
+                    checkBox.setDisable(true);
+                    checkBox.selectedProperty().bindBidirectional(item.modifedProperty());
                     setGraphic(checkBox);
                     setAlignment(Pos.CENTER);
                 }
@@ -532,6 +525,12 @@ public class MainFrameController {
     @FXML
     private
     void setNotifications(ActionEvent actionEvent) {
+        List<WordView> wordViewListTmp = new ArrayList<>();
+        for (WordView word: wordModel.getWordWiewList()) {
+            if (word.isChecked())
+                wordViewListTmp.add(word);
+        }
+        if (wordViewListTmp.size()>0){
         final String FXML_NOTIFICATION_DIALOG_FXML = "/fxml/NotificationOptions.fxml";
         FXMLLoader fxmlLoader = new FXMLLoader();
 
@@ -545,25 +544,20 @@ public class MainFrameController {
         }
 
         NotifiactionOptionController notificationDialogController = fxmlLoader.getController();
-        List<WordView> wordViewListTmp = new ArrayList<>();
-        for (WordView word: wordModel.getWordWiewList()) {
-            if (word.isChecked())
-                wordViewListTmp.add(word);
-        }
-        if (wordViewListTmp.size()>0){
             notificationDialogController.setWordsToDisplay(wordViewListTmp);
-
 
             Scene scene =null;
             assert dialog != null;
             scene = new Scene(dialog);
-
+            scene.getStylesheets().add(App.class.getResource("/css/style.css").toExternalForm());
 
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.show();
         }
+        else
+            DialogUtils.confirmDialog("Word list must have more than zero postitions","List is empty");
     }
 
     @FXML
@@ -580,5 +574,24 @@ public class MainFrameController {
     private void clearCategoryBox(ActionEvent actionEvent) {
         categoryChoiceBox.getSelectionModel().select(null);
         subCategoryChoiceBox.getSelectionModel().select(null);
+    }
+
+    @FXML
+    private void reloadData(){
+        try {
+            wordModel.realoadDataFromDB();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void clearSelectedModifed(){
+        for (WordView wordView: wordModel.getWordWiewList()) {
+            if (wordView.isModifed() && wordView.isChecked())
+            {
+                wordModel.repleaceByViewFromDB(wordView);
+            }
+        }
     }
 }

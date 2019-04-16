@@ -25,7 +25,7 @@
 
     <Label GridPane.columnIndex="1" GridPane.rowIndex="1">Display time</Label>
     <Label GridPane.columnIndex="1" GridPane.rowIndex="2">Notifcation interval</Label>
-    <ComboBox GridPane.columnIndex="2" GridPane.rowIndex="1" fx:id="displayTimeComboBox"/>
-    <ComboBox GridPane.columnIndex="2" GridPane.rowIndex="2" fx:id="intervalComboBox"/>
+    <ChoiceBox GridPane.columnIndex="2" GridPane.rowIndex="1" fx:id="displayTimeComboBox"/>
+    <ChoiceBox GridPane.columnIndex="2" GridPane.rowIndex="2" fx:id="intervalComboBox"/>
     <Button GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.rowSpan="2" onAction="#startNotification">Start</Button>
 </GridPane>

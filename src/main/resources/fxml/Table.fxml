@@ -13,6 +13,7 @@
         <TableColumn  text="mean" fx:id="meanColumn" maxWidth="Infinity"/>
         <TableColumn  text="status" fx:id="statusColumn" maxWidth="Infinity"/>
         <TableColumn  text="selection" fx:id="selectColumn" maxWidth="Infinity"/>
+        <TableColumn  text="to update" fx:id="updateToColumn" maxWidth="Infinity"/>
 
     </columns>
 </TableView>

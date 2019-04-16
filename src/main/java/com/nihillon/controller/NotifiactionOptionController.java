@@ -5,18 +5,18 @@ import com.nihillon.viewModel.WordView;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.stage.Stage;
-import org.springframework.beans.factory.annotation.Autowired;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NotifiactionOptionController {
     @FXML
-    private ComboBox<Integer> displayTimeComboBox;
+    private ChoiceBox<Integer> displayTimeComboBox;
     @FXML
-    private ComboBox<Integer> intervalComboBox;
+    private ChoiceBox<Integer> intervalComboBox;
 
     private NotificationBar notificationBar;
 
