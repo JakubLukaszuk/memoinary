@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.GridPane?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-
-<TableView GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="3" GridPane.rowSpan="2" fx:id="tableView" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nihillon.controller.MainFrameController" maxWidth="Infinity" maxHeight="Infinity">
+<TableView fx:id="tableView" maxHeight="Infinity" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="3" GridPane.rowSpan="2" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="com.nihillon.controller.MainFrameController">
 
     <columns>
-        <TableColumn  text="category" fx:id="categoryColumn" maxWidth="Infinity"/>
-        <TableColumn  text="subcategory" fx:id="subCategoryColumn" maxWidth="Infinity"/>
-        <TableColumn  text="issue" fx:id="issueColumn" maxWidth="Infinity"/>
-        <TableColumn  text="mean" fx:id="meanColumn" maxWidth="Infinity"/>
-        <TableColumn  text="status" fx:id="statusColumn" maxWidth="Infinity"/>
-        <TableColumn  text="selection" fx:id="selectColumn" maxWidth="Infinity"/>
-        <TableColumn  text="to update" fx:id="updateToColumn" maxWidth="Infinity"/>
+        <TableColumn fx:id="categoryColumn" maxWidth="Infinity" text="%column.issue" />
+        <TableColumn fx:id="subCategoryColumn" maxWidth="Infinity" text="%column.subCategory" />
+        <TableColumn fx:id="issueColumn" maxWidth="Infinity" text="%column.issue" />
+        <TableColumn fx:id="meanColumn" maxWidth="Infinity" text="%column.mean" />
+        <TableColumn fx:id="statusColumn" maxWidth="Infinity" text="%column.knowledge" />
+        <TableColumn fx:id="selectColumn" maxWidth="Infinity" text="%column.selcetion" />
+        <TableColumn fx:id="updateToColumn" maxWidth="Infinity" text="%column.toUpdate" />
 
     </columns>
 </TableView>

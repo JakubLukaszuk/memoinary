@@ -13,20 +13,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import java.io.IOException;
 import java.util.Date;
-
-
+import java.util.ResourceBundle;
 
 
 @SpringBootApplication
 public class App extends Application {
 
-
-    private NotificationBar notify;
     private ConfigurableApplicationContext springContext;
     private Parent rootNode;
     private FXMLLoader fxmlLoader;
@@ -45,18 +43,18 @@ public class App extends Application {
 
         CommonDao commonDao = new CommonDao();
         Word word = new Word();
-        word.setIssue("Zagadnienie!!!!!!!!!!!!!!!");
+        word.setIssue("Zagadnienie!!!!!!!!!!!!!!dasdsadasdsadsa!");
         word.setKnowledgeStatus(false);
-        word.setMean("nie wiem");
+        word.setMean("nie wiefsddddddddddddddddddddddddddddm");
         Date date =new Date();
         word.setDateOfAddition(date);
         Category category = new Category();
-        category.setCategory("kategoria");
+        category.setCategory("kategorisdffffffffffffffffffa");
         category.setDateOfAddition(date);
         category.setDescription("description");
         SubCategory subCategory = new SubCategory();
         subCategory.setCategory(category);
-        subCategory.setSubCategory("podkategoria");
+        subCategory.setSubCategory("podkatsdfffffffffffffffffffffffffffegoria");
         subCategory.setDescription("deskrypaca");
         subCategory.setDateOfAddition(date);
         word.setCategory(category);
@@ -85,12 +83,16 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
+
         fxmlLoader.setLocation(getClass().getResource("/fxml/main-frame.fxml"));
+        ResourceBundle bundle = ResourceBundle.getBundle("bundles.messagesData");
+        fxmlLoader.setResources(bundle);
         rootNode = fxmlLoader.load();
-        NotificationBar.getInstance().displayTray("Hello my firend how do you to day", 3000);
-        primaryStage.setTitle("Memoinary");
+        NotificationBar.getInstance().displayTray(bundle.getString("message.invitation"), 3000);
+
         primaryStage.setResizable(false);
         Scene scene = new Scene(rootNode);
+        primaryStage.setTitle(bundle.getString("application.title"));
         primaryStage.setScene(scene);
         scene.getStylesheets().add(App.class.getResource("/css/style.css").toExternalForm());
         primaryStage.sizeToScene();

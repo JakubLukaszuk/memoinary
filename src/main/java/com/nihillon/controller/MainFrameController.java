@@ -9,6 +9,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -21,6 +23,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -32,6 +36,7 @@ import java.util.List;
 
 @Component
 public class MainFrameController {
+
 
     private final CategoryModel categoryModel;
     private final WordModel wordModel;
@@ -234,7 +239,7 @@ public class MainFrameController {
         //Category column
         categoryColumn.setCellValueFactory(cellData -> cellData.getValue().categoryProperty().get().categoryNameProperty());
         categoryColumn.setCellFactory(cell -> new TableCell<WordView, String>(){
-            ComboBox<CategoryView> comboBox = new ComboBox<>();
+            ChoiceBox<CategoryView> comboBox = new ChoiceBox<>();
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -244,6 +249,14 @@ public class MainFrameController {
                 else {
                     textProperty().bind(new SimpleStringProperty(item));
                     comboBox.setItems(categoryModel.getCategoryViewList());
+                    if (comboBox.getItems().size()<2){
+                        comboBox.setDisable(true);
+                        if (comboBox.getItems().size()>0)
+                        comboBox.setValue(comboBox.getItems().get(0));
+                    }
+                    else {
+                        comboBox.setDisable(false);
+
                     comboBox.valueProperty().addListener(new ChangeListener<CategoryView>() {
                         @Override
                         public void changed(ObservableValue<? extends CategoryView> observable, CategoryView oldValue, CategoryView newValue) {
@@ -255,6 +268,7 @@ public class MainFrameController {
                             tmpWord.setModifed(true);
                         }
                     });
+                    }
 
                     setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
@@ -285,7 +299,7 @@ public class MainFrameController {
                 }
                 else {
                     textProperty().bind(new SimpleStringProperty(item));
-                    ComboBox<SubCategoryView> comboBox = new ComboBox<>();
+                    ChoiceBox<SubCategoryView> comboBox = new ChoiceBox<>();
                     comboBox.valueProperty().addListener(new ChangeListener<SubCategoryView>() {
                         @Override
                         public void changed(ObservableValue<? extends SubCategoryView> observable, SubCategoryView oldValue, SubCategoryView newValue) {
@@ -380,6 +394,7 @@ public class MainFrameController {
 
         String tmpIssue = issueTextFiled.getText(), tmpMean = meanTextField.getText();
         if (!StringUtils.isEmpty(tmpIssue) || !StringUtils.isEmpty(tmpMean))
+        {
             try {
                 wordModel.saveToDataBase(issueTextFiled.getText(),meanTextField.getText(),categoryChoiceBox.getSelectionModel().getSelectedItem(),subCategoryChoiceBox.getSelectionModel().getSelectedItem(),isKnownCheckBox.isSelected() ) ;
             }
@@ -391,10 +406,14 @@ public class MainFrameController {
             }
             catch (ParseException e)
             {
-            e.printStackTrace();
+                e.printStackTrace();
                 logger.writeLog("execetion at saving to DB", e);
                 DialogUtils.errorDialog("saving to data base error","word is not saved", e);
+            }
         }
+        categoryChoiceBox.setValue(null);
+        subCategoryChoiceBox.setValue(null);
+
     }
     @FXML
     private void saveCategoryToDB(ActionEvent actionEvent) {
@@ -411,6 +430,9 @@ public class MainFrameController {
                 DialogUtils.errorDialog("error data writing","writing to db error", e);
             }
         }
+        clearSubCategoryBox();
+        clearCategoryBox();
+
     }
 
     @FXML
@@ -429,6 +451,8 @@ public class MainFrameController {
                 DialogUtils.errorDialog("error data writing","writing to db error", e);
             }
         }
+        clearSubCategoryBox();
+        clearCategoryBox();
     }
 
     @FXML
@@ -457,6 +481,8 @@ public class MainFrameController {
             tableView.refresh();
             subCategoryModel.deleteFromDataBaseById(subCategory);
             subCategoryChoiceBox.getItems().remove(subCategory);
+            clearSubCategoryBox();
+            clearCategoryBox();
         }
     }
 
@@ -481,6 +507,8 @@ public class MainFrameController {
             category.getSubCategories().forEach(subCategoryView -> subCategoryChoiceBox.getItems().remove(subCategoryView));
             categoryModel.deleteFromDataBaseById(category);
             categoryChoiceBox.getItems().remove(category);
+            clearSubCategoryBox();
+            clearCategoryBox();
         }
     }
 
@@ -561,19 +589,20 @@ public class MainFrameController {
     }
 
     @FXML
-    private void setOffNotifications(ActionEvent actionEvent) {
+    private void setOffNotifications() {
         NotificationBar.getInstance().setWorkFlag(false);
     }
 
     @FXML
-    private void clearSubCategoryBox(ActionEvent actionEvent) {
+    private void clearSubCategoryBox() {
         subCategoryChoiceBox.getSelectionModel().select(null);
     }
 
     @FXML
-    private void clearCategoryBox(ActionEvent actionEvent) {
+    private void clearCategoryBox() {
         categoryChoiceBox.getSelectionModel().select(null);
         subCategoryChoiceBox.getSelectionModel().select(null);
+        subCategoryChoiceBox.setItems(FXCollections.observableArrayList());
     }
 
     @FXML
