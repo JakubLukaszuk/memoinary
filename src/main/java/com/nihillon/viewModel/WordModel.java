@@ -50,7 +50,7 @@ public class WordModel {
         fillWithData();
     }
 
-    public void deleteFromDataBaseById(WordView wordView){
+    public void deleteFromDataBaseById(WordView wordView) throws SQLException {
         CommonDao dao = new CommonDao();
         dao.deleteById(Word.class, wordView.getId());
     }
@@ -101,7 +101,15 @@ public class WordModel {
     }
 
     public void deleteSelectedWords() throws SQLException {
-        getSelectedItems().forEach(this::deleteFromDataBaseById);
+        //getSelectedItems().forEach(this::deleteFromDataBaseById);
+        getSelectedItems().forEach(item -> {
+            try {
+                deleteFromDataBaseById(item);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        });
         fillWithData();
     }
 
@@ -224,7 +232,7 @@ public class WordModel {
         wordWiewList.addAll(result);
     }
 
-    public void repleaceByViewFromDB(WordView wordView){
+    public void repleaceByViewFromDB(WordView wordView) throws SQLException {
         WordView resived = ToView.toWordView(dao.findByID(Word.class, wordView.getId()));
         if (resived!=null){
             for (WordView word: wordWiewList) {

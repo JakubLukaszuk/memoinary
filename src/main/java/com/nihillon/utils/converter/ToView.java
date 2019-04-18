@@ -60,6 +60,7 @@ public class ToView {
         WordView wordView = new WordView();
         wordView.setCategory(toCategoryView(word.getCategory()));
         wordView.setSubCategory(toSubCategoryView(word.getSubCategory()));
+        wordView.setKnowledgeStatus(word.getKnowledgeStatus());
         wordView.setDateOfAddition(formatter.format(word.getDateOfAddition()));
         if (word.getIssue()!=null)
         wordView.setIssue(word.getIssue());

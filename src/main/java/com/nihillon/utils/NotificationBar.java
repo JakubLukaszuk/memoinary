@@ -37,34 +37,27 @@ public class NotificationBar {
         return result;
     }
 
-    public  void generateNotifiacations(int interval, int period, List<WordView> selectedItems)
+    public  void generateNotifiacations(int interval, int period, List<WordView> selectedItems, String title)
     {
-
-        if (selectedItems.size()>0) {
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
                     if (workFlag) {
                         int index = (int) (Math.random() * (selectedItems.size()));
                             String message = String.format("%s - %s", selectedItems.get(index).getIssue(), selectedItems.get(index).getMean());
-                            displayTray(message, period);
+                            displayTray(message,title ,period);
                     } else {
                         this.cancel();
                     }
                 }
             }, 0, interval);
-        }
-        else
-        {
-            DialogUtils.confirmDialog("Word list must be bigger than 0", "Word list is empty");
-        }
     }
 
 
-    public void displayTray(String message, int toAutoClose) {
+    public void displayTray(String message, String title, int toAutoClose) {
         //Obtain only one instance of the SystemTray object
         Notify.create()
-                .title("ULTIMATE DICTOINARY")
+                .title(title)
                 .text(message)
                 .darkStyle()
                 .hideAfter(toAutoClose)

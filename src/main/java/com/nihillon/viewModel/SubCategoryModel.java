@@ -33,7 +33,7 @@ public class SubCategoryModel {
         this.dao = dao;
     }
 
-    public void saveToDataBase(String discription, String subCategoryName, CategoryView category) {
+    public void saveToDataBase(String discription, String subCategoryName, CategoryView category) throws SQLException {
         SubCategory subCategory = new SubCategory();
         subCategory.setDescription(discription);
         subCategory.setSubCategory(subCategoryName);
@@ -43,16 +43,16 @@ public class SubCategoryModel {
         fillWithData();
     }
 
-    public void deleteFromDataBaseById(SubCategoryView subCategoryView){
+    public void deleteFromDataBaseById(SubCategoryView subCategoryView) throws SQLException {
         dao.deleteById(SubCategory.class, subCategoryView.getId());
         fillWithData();
     }
 
-    public void deleteFromDataBaseById(){
+    public void deleteFromDataBaseById() throws SQLException {
         dao.deleteById(SubCategory.class, selcetedSubCategory.get().getId());
     }
 
-    public void fillWithData() {
+    public void fillWithData() throws SQLException {
         subCategoryViewList.clear();
         dao.queryForAll(SubCategory.class).forEach(subCategory -> subCategoryViewList.add(ToView.toSubCategoryView(subCategory)));
         DbManager.closeConnection();
@@ -76,7 +76,7 @@ public class SubCategoryModel {
     }
 
 
-    public void updateInDataBase(String newCategoryName) {
+    public void updateInDataBase(String newCategoryName) throws SQLException {
 
         SubCategory subCategorytmp = dao.findByID(SubCategory.class, selcetedSubCategory.get().getId());
         subCategorytmp.setSubCategory(newCategoryName);

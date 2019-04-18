@@ -4,10 +4,10 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.GridPane?>
 
-<TableView fx:id="tableView" maxHeight="Infinity" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="3" GridPane.rowSpan="2" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="com.nihillon.controller.MainFrameController">
+<TableView fx:id="tableView" maxHeight="Infinity" maxWidth="Infinity" GridPane.columnIndex="2" GridPane.columnSpan="6" GridPane.rowIndex="3" GridPane.rowSpan="2" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nihillon.controller.MainFrameController">
 
     <columns>
-        <TableColumn fx:id="categoryColumn" maxWidth="Infinity" text="%column.issue" />
+        <TableColumn fx:id="categoryColumn" maxWidth="Infinity" text="%column.category" />
         <TableColumn fx:id="subCategoryColumn" maxWidth="Infinity" text="%column.subCategory" />
         <TableColumn fx:id="issueColumn" maxWidth="Infinity" text="%column.issue" />
         <TableColumn fx:id="meanColumn" maxWidth="Infinity" text="%column.mean" />

@@ -52,7 +52,7 @@ public class CategoryModel {
         this.selcetedCategory.set(selcetedCategory);
     }
 
-    public void saveToDataBase(String discription, String categoryName) {
+    public void saveToDataBase(String discription, String categoryName) throws SQLException {
 //        CommonDao dao = new CommonDao();
         Category category = new Category();
         category.setDescription(discription);
@@ -63,18 +63,18 @@ public class CategoryModel {
 
     }
 
-    public void deleteFromDataBaseById(CategoryView categoryView){
+    public void deleteFromDataBaseById(CategoryView categoryView) throws SQLException {
 //        CommonDao dao = new CommonDao();
         dao.deleteById(Category.class, categoryView.getId());
         fillWithData();
     }
 
-    public void deleteFromDataBaseById(){
+    public void deleteFromDataBaseById() throws SQLException {
 //        CommonDao dao = new CommonDao();
         dao.deleteById(Category.class, selcetedCategory.get().getId());
     }
 
-    public void fillWithData() {
+    public void fillWithData() throws SQLException {
 //        CommonDao dao = new CommonDao();
         categoryViewList.clear();
         dao.queryForAll(Category.class).forEach(category->categoryViewList.add(ToView.toCategoryView(category)));
@@ -82,7 +82,7 @@ public class CategoryModel {
     }
 
 
-    public void updateInDataBase(String newCategoryName) {
+    public void updateInDataBase(String newCategoryName) throws SQLException {
 //        CommonDao dao = new CommonDao();
         Category categorytmp = dao.findByID(Category.class, selcetedCategory.get().getId());
         categorytmp.setCategory(newCategoryName);

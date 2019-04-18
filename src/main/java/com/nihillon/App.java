@@ -18,6 +18,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -59,9 +60,14 @@ public class App extends Application {
         subCategory.setDateOfAddition(date);
         word.setCategory(category);
         word.setSubCategory(subCategory);
-        commonDao.createOrUpdate( category);
-        commonDao.createOrUpdate( subCategory);
-        commonDao.createOrUpdate( word);
+        try {
+            commonDao.createOrUpdate( category);
+            commonDao.createOrUpdate( subCategory);
+            commonDao.createOrUpdate( word);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
         Word word1 = new Word();
         word1.setIssue("zagadnienie2");
@@ -75,8 +81,13 @@ public class App extends Application {
         subCategory1.setCategory(category);
         word1.setSubCategory(subCategory1);
         subCategory1.setDescription("xd");
-        commonDao.createOrUpdate(subCategory1);
-        commonDao.createOrUpdate(word1);
+        try {
+            commonDao.createOrUpdate(subCategory1);
+            commonDao.createOrUpdate(word1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
@@ -88,7 +99,7 @@ public class App extends Application {
         ResourceBundle bundle = ResourceBundle.getBundle("bundles.messagesData");
         fxmlLoader.setResources(bundle);
         rootNode = fxmlLoader.load();
-        NotificationBar.getInstance().displayTray(bundle.getString("message.invitation"), 3000);
+        NotificationBar.getInstance().displayTray(bundle.getString("message.invitation"), bundle.getString("application.title").toUpperCase(), 3000);
 
         primaryStage.setResizable(false);
         Scene scene = new Scene(rootNode);

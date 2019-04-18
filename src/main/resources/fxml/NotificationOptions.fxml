@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
-<GridPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nihillon.controller.NotifiactionOptionController">
+<GridPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nihillon.controller.NotifiactionOptionController">
     <rowConstraints>
         <RowConstraints minHeight="10.0" prefHeight="30.0" />
         <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -23,9 +24,9 @@
         <ColumnConstraints />
     </columnConstraints>
 
-    <Label GridPane.columnIndex="1" GridPane.rowIndex="1">Display time</Label>
-    <Label GridPane.columnIndex="1" GridPane.rowIndex="2">Notifcation interval</Label>
-    <ChoiceBox GridPane.columnIndex="2" GridPane.rowIndex="1" fx:id="displayTimeComboBox"/>
-    <ChoiceBox GridPane.columnIndex="2" GridPane.rowIndex="2" fx:id="intervalComboBox"/>
-    <Button GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.rowSpan="2" onAction="#startNotification">Start</Button>
+    <Label text="%label.displayTime" GridPane.columnIndex="1" GridPane.rowIndex="1">Display time</Label>
+    <Label text="%label.interval" GridPane.columnIndex="1" GridPane.rowIndex="2">Notifcation interval</Label>
+    <ChoiceBox fx:id="displayTimeComboBox" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+    <ChoiceBox fx:id="intervalComboBox" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+    <Button onAction="#startNotification" text="%button.start" GridPane.columnIndex="3" GridPane.rowIndex="1" GridPane.rowSpan="2">Start</Button>
 </GridPane>

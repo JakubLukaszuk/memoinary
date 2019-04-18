@@ -11,14 +11,13 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class NotifiactionOptionController {
     @FXML
     private ChoiceBox<Integer> displayTimeComboBox;
     @FXML
     private ChoiceBox<Integer> intervalComboBox;
-
-    private NotificationBar notificationBar;
 
     private List<WordView> wordsToDisplay;
 
@@ -59,7 +58,9 @@ public class NotifiactionOptionController {
     @FXML
     private void startNotification(ActionEvent actionEvent) {
         NotificationBar.getInstance().setWorkFlag(true);
-        NotificationBar.getInstance().generateNotifiacations((int)intervalComboBox.getSelectionModel().getSelectedItem()*1000, (int)displayTimeComboBox.getSelectionModel().getSelectedItem()*1000, wordsToDisplay);
+        NotificationBar.getInstance().generateNotifiacations((int)intervalComboBox.getSelectionModel().getSelectedItem()*1000,
+                (int)displayTimeComboBox.getSelectionModel().getSelectedItem()*1000, wordsToDisplay,
+                ResourceBundle.getBundle("bundles.messagesData").getString("application.title").toUpperCase());
         Stage stage = (Stage) displayTimeComboBox.getScene().getWindow();
         stage.close();
     }

@@ -14,7 +14,7 @@ import java.util.List;
 @Component
 public class CommonDao {
 
-    protected final ConnectionSource connectionSource;
+    private final ConnectionSource connectionSource;
 
     public CommonDao() {
         this.connectionSource = DbManager.getConnectionSource();
@@ -25,75 +25,36 @@ public class CommonDao {
     }
 
 
-    public <T extends BaseModel, U> void createOrUpdate( BaseModel objectToUpdateOrCreate)  {
+    public <T extends BaseModel, U> void createOrUpdate( BaseModel objectToUpdateOrCreate) throws SQLException {
         Dao<T, U> dao = (Dao<T, U>) getDao(objectToUpdateOrCreate.getClass());
-        try {
             dao.createOrUpdate((T) objectToUpdateOrCreate);
-        } catch (SQLException e) {
-
-        }
     }
 
-
-    public <T extends BaseModel, U> Dao<T, U> getDao(Class<T> tClass) {
-        try {
+    public <T extends BaseModel, U> Dao<T, U> getDao(Class<T> tClass) throws SQLException {
             return DaoManager.createDao(connectionSource, tClass);
-        } catch (SQLException e) {
-
-        }
-        return null;
     }
 
-    public <T extends BaseModel, U> List<T> returnAll(Class<T> tClass) {
-        try {
+    public <T extends BaseModel, U> List<T> returnAll(Class<T> tClass) throws SQLException {
             Dao<T, U> dao = getDao(tClass);
             return dao.queryForAll();
-
-        } catch (SQLException e) {
-
-                  }
-        return null;
     }
 
-    public <T extends BaseModel, U> void refresh(BaseModel bm) {
-        try {
+    public <T extends BaseModel, U> void refresh(BaseModel bm) throws SQLException {
             Dao<T, U> dao = getDao((Class<T>) bm.getClass());
             dao.refresh((T) bm);
-
-        } catch (SQLException e) {
-
-        }
-
     }
 
-    public <T extends BaseModel, I> List<T> queryForAll(Class<T> cls) {
-
+    public <T extends BaseModel, I> List<T> queryForAll(Class<T> cls) throws SQLException {
         Dao<T, I> dao = getDao(cls);
-        try {
             return dao.queryForAll();
-        } catch (SQLException e) {
-                   }
-        return null;
     }
 
-
-    public <T extends BaseModel, I> void deleteById(Class<T> cls, Integer id) {
-
+    public <T extends BaseModel, I> void deleteById(Class<T> cls, Integer id) throws SQLException {
         Dao<T, I> dao = getDao(cls);
-        try {
-            dao.deleteById((I) id);
-        } catch (SQLException e) {
-                 }
     }
 
-    public <T extends BaseModel, I> T findByID(Class<T> cls, Integer id) {
-
+    public <T extends BaseModel, I> T findByID(Class<T> cls, Integer id) throws SQLException {
         Dao<T, I> dao = getDao(cls);
-        try {
             return dao.queryForId((I) id);
-        } catch (SQLException e) {
-                  }
-        return null;
-
     }
 }
