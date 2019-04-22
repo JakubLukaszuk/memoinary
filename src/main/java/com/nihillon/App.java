@@ -19,6 +19,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 
@@ -87,6 +88,7 @@ public class App extends Application {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 
 
     }

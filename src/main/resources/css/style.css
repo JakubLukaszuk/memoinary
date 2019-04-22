@@ -225,7 +225,23 @@
     -fx-background-color: orange;
 }
 
+/*dialogs*/
+.dialog{
+    -fx-background-color:  #424141;
+    -fx-border-color: white;
+    -fx-border-radius: 3px;
+}
 
+.dialog > *.header-panel{
+    -fx-background-color: #424141;
+    -fx-border-color: rgb(131, 127, 130);
+    -fx-border-radius: 2px;
+}
+
+.dialog > *.label.content{
+    -fx-text-fill: red;
+
+}
 
 
 

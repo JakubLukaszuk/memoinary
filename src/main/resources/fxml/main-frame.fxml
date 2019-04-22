@@ -37,6 +37,9 @@
    </columnConstraints>
    <children>
        <MenuBar prefHeight="25.0" prefWidth="9.0" GridPane.columnIndex="0" GridPane.columnSpan="8">
+           <Menu mnemonicParsing="false" text="%menu.File">
+               <MenuItem mnemonicParsing="false" onAction="#saveToTxtFile" text="%menuItem.saveTxt"/>
+           </Menu>
            <Menu mnemonicParsing="false" text="%menu.dataActions">
                <MenuItem mnemonicParsing="false" onAction="#deleteSelectedWords" text="%menuItem.deleteSelected" />
                <MenuItem mnemonicParsing="false" onAction="#reloadData" text="%menuItem.reloadData" />
@@ -151,6 +154,6 @@
                <Separator halignment="LEFT" prefWidth="50.0" valignment="BOTTOM" GridPane.columnSpan="4" GridPane.rowIndex="5" GridPane.valignment="BOTTOM" />
            </children>
        </GridPane>
-       <fx:include source="Table.fxml" />
+       <fx:include source="table.fxml" />
    </children>
 </GridPane>

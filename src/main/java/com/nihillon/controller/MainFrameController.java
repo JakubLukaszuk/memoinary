@@ -11,7 +11,6 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,8 +23,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -407,6 +404,9 @@ public class MainFrameController {
                 DialogUtils.errorDialog(bundle.getString("error.save"), bundle.getString("error.saveTitle"), e);
             }
         }
+        else {
+            DialogUtils.confirmDialog(bundle.getString("dialog.empyFields"), bundle.getString("dialog.title.emptyFields"));
+        }
         categoryChoiceBox.setValue(null);
         subCategoryChoiceBox.setValue(null);
 
@@ -559,7 +559,7 @@ public class MainFrameController {
                 wordViewListTmp.add(word);
         }
         if (wordViewListTmp.size()>0){
-        final String FXML_NOTIFICATION_DIALOG_FXML = "/fxml/NotificationOptions.fxml";
+        final String FXML_NOTIFICATION_DIALOG_FXML = "/fxml/notification-options.fxml";
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setResources(ResourceBundle.getBundle("bundles.messagesData"));
 
@@ -616,7 +616,7 @@ public class MainFrameController {
     }
 
     @FXML
-    void clearSelectedModifed(){
+    private void clearSelectedModifed(){
         for (WordView wordView: wordModel.getWordWiewList()) {
             if (wordView.isModifed() && wordView.isChecked())
             {
@@ -627,5 +627,44 @@ public class MainFrameController {
                 }
             }
         }
+    }
+
+    @FXML
+    private void saveToTxtFile() {
+        List<WordView> wordViewListTmp = new ArrayList<>();
+        for (WordView word: wordModel.getWordWiewList()) {
+            if (word.isChecked())
+                wordViewListTmp.add(word);
+        }
+        if (wordViewListTmp.size()>0){
+            final String FXML_NOTIFICATION_DIALOG_FXML = "/fxml/save-txt-options.fxml";
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setResources(ResourceBundle.getBundle("bundles.messagesData"));
+
+            fxmlLoader.setLocation(getClass().getResource(FXML_NOTIFICATION_DIALOG_FXML));
+
+            Parent dialog = null;
+            try {
+                dialog = fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            SaveTxtOptionsController saveTxtOptionsController = fxmlLoader.getController();
+            saveTxtOptionsController.setWordsToSave(wordViewListTmp);
+
+            Scene scene =null;
+            assert dialog != null;
+            scene = new Scene(dialog);
+            scene.getStylesheets().add(App.class.getResource("/css/style.css").toExternalForm());
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.show();
+        }
+        else
+            DialogUtils.confirmDialog(bundle.getString("infromation.amutWords"),bundle.getString("tite.emptyList"));
+
     }
 }
