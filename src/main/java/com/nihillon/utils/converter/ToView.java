@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 
 
 public class ToView {
-    private static DateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
+    private final static DateFormat formatter = new SimpleDateFormat("dd-MMM-yy");
     public static CategoryView toCategoryView(Category category){
         CategoryView categoryView = new CategoryView();
         if (category!=null){
@@ -25,6 +25,7 @@ public class ToView {
             category.getSubCategoryForeignCollection().forEach(subCategory -> subCategoryViewObservableList.add(toSubCategorySimpleView(subCategory)));
             categoryView.setSubCategories(subCategoryViewObservableList);
         }
+
 
         return categoryView;
     }

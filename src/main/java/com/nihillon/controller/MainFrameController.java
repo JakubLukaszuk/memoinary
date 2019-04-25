@@ -4,6 +4,7 @@ import com.nihillon.App;
 import com.nihillon.utils.DialogUtils;
 import com.nihillon.utils.NotificationBar;
 import com.nihillon.utils.file.LoggerWriter;
+import com.nihillon.utils.file.txt.TextFileHandler;
 import com.nihillon.viewModel.*;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -22,15 +23,18 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 @Component
@@ -553,11 +557,8 @@ public class MainFrameController {
     @FXML
     private
     void setNotifications(ActionEvent actionEvent) {
-        List<WordView> wordViewListTmp = new ArrayList<>();
-        for (WordView word: wordModel.getWordWiewList()) {
-            if (word.isChecked())
-                wordViewListTmp.add(word);
-        }
+        List<WordView> wordViewListTmp = getSelectedWords();
+
         if (wordViewListTmp.size()>0){
         final String FXML_NOTIFICATION_DIALOG_FXML = "/fxml/notification-options.fxml";
         FXMLLoader fxmlLoader = new FXMLLoader();
@@ -610,6 +611,7 @@ public class MainFrameController {
     private void reloadData(){
         try {
             wordModel.realoadDataFromDB();
+            tableView.refresh();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -631,11 +633,8 @@ public class MainFrameController {
 
     @FXML
     private void saveToTxtFile() {
-        List<WordView> wordViewListTmp = new ArrayList<>();
-        for (WordView word: wordModel.getWordWiewList()) {
-            if (word.isChecked())
-                wordViewListTmp.add(word);
-        }
+        List<WordView> wordViewListTmp = getSelectedWords();
+
         if (wordViewListTmp.size()>0){
             final String FXML_NOTIFICATION_DIALOG_FXML = "/fxml/save-txt-options.fxml";
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -666,5 +665,33 @@ public class MainFrameController {
         else
             DialogUtils.confirmDialog(bundle.getString("infromation.amutWords"),bundle.getString("tite.emptyList"));
 
+    }
+
+    public void readTxtFile(ActionEvent actionEvent) {
+        File file = DialogUtils.fileChooser(tableView.getScene().getWindow(), "*.txt", "TXT files (*.txt)");
+        System.out.println(file);
+        if (file!=null) {
+            try {
+                Objects.requireNonNull(TextFileHandler.ReadTxtFile(file)).forEach(wordView -> {
+                    try {
+                       wordModel.saveToDataBase(wordView);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
+                wordModel.realoadDataFromDB();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private List<WordView> getSelectedWords(){
+        List<WordView> wordViewList = new ArrayList<>();
+        for (WordView word: wordModel.getWordWiewList()) {
+            if (word.isChecked())
+                wordViewList.add(word);
+        }
+        return wordViewList;
     }
 }

@@ -138,8 +138,5 @@ public class WordView {
         this.modifed.set(modifed);
     }
 
-    @Override
-    public String toString() {
-        return "id: "+id.getValue()+" issue: "+issue.getValue()+" mean: "+mean.getValue()+" Subcategory: "+subCategory.get().subCategoryNameProperty().getValue()+" Category :"+category.get().categoryNameProperty().getValue()+" status: "+knowledgeStatus.getValue()+" date: "+dateOfAddition.getValue();
-    }
+
 }

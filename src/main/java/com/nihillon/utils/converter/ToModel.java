@@ -13,15 +13,17 @@ import java.text.SimpleDateFormat;
 
 
 public class ToModel {
-    private static DateFormat format = new SimpleDateFormat("dd-MMM-yy");
+    private final static DateFormat format = new SimpleDateFormat("dd-MMM-yy");
+
     public static Category toCategory(CategoryView categoryView) throws ParseException {
         Category category = new Category();
-        System.out.println(categoryView);
-        category.setId(categoryView.getId());
-        category.setCategory(categoryView.getCategoryName());
-        //Sytem.out.println(categoryView.getDateOfAddition());
-        category.setDateOfAddition(format.parse(categoryView.getDateOfAddition()));
-        category.setDescription(categoryView.getDescription());
+        if (categoryView!=null){
+            category.setId(categoryView.getId());
+            category.setCategory(categoryView.getCategoryName());
+            //Sytem.out.println(categoryView.getDateOfAddition());
+            category.setDateOfAddition(format.parse(categoryView.getDateOfAddition()));
+            category.setDescription(categoryView.getDescription());
+        }
         return category;
     }
 

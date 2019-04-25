@@ -240,8 +240,13 @@
 
 .dialog > *.label.content{
     -fx-text-fill: red;
-
 }
+
+.red
+{
+    -fx-background-color: red;
+}
+
 
 
 

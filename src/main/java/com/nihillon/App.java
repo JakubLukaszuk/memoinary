@@ -22,6 +22,8 @@ import java.sql.SQLException;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 @SpringBootApplication
@@ -110,6 +112,10 @@ public class App extends Application {
         scene.getStylesheets().add(App.class.getResource("/css/style.css").toExternalForm());
         primaryStage.sizeToScene();
         primaryStage.show();
+
+        Pattern pattern = Pattern.compile("((\\{(\\d+)\\}\\s+\\-\\s+){1,3}\\{(\\d+)\\})");
+        Matcher matcher = pattern.matcher("{0} - {1}");
+        System.out.println(matcher.matches());
     }
 
 

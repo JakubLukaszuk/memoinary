@@ -39,10 +39,11 @@
        <MenuBar prefHeight="25.0" prefWidth="9.0" GridPane.columnIndex="0" GridPane.columnSpan="8">
            <Menu mnemonicParsing="false" text="%menu.File">
                <MenuItem mnemonicParsing="false" onAction="#saveToTxtFile" text="%menuItem.saveTxt"/>
+               <MenuItem mnemonicParsing="false" onAction="#readTxtFile" text="XD"/>
            </Menu>
            <Menu mnemonicParsing="false" text="%menu.dataActions">
-               <MenuItem mnemonicParsing="false" onAction="#deleteSelectedWords" text="%menuItem.deleteSelected" />
                <MenuItem mnemonicParsing="false" onAction="#reloadData" text="%menuItem.reloadData" />
+               <MenuItem mnemonicParsing="false" onAction="#deleteSelectedWords" text="%menuItem.deleteSelected" />
                <MenuItem mnemonicParsing="false" onAction="#clearSelectedModifed" text="%menuItem.realoadSelected" />
            </Menu>
            <Menu mnemonicParsing="false" text="%menu.notification">

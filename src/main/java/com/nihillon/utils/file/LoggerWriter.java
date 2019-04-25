@@ -13,7 +13,7 @@ import java.util.logging.SimpleFormatter;
 
 public class LoggerWriter {
 
-    public void writeLog(String info, Exception exception) {
+    public static void writeLog(String info, Exception exception) {
         Logger logger = Logger.getLogger("memoinaryLogs");
         FileHandler fh;
         DirHandler dirHandler = new DirHandler();

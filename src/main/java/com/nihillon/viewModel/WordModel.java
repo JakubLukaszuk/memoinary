@@ -13,9 +13,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import sun.util.calendar.LocalGregorianCalendar;
 
+import javax.xml.crypto.Data;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
 
@@ -30,7 +34,7 @@ public class WordModel {
         this.dao = dao;
     }
 
-    public void saveToDataBase(String mean, String word, CategoryView categoryView, SubCategoryView subCategoryView, boolean status) throws ParseException, SQLException {
+    public void saveToDataBase(String mean, String issue, CategoryView categoryView, SubCategoryView subCategoryView, boolean status) throws ParseException, SQLException {
         Word wordToSave = new Word();
         Date current = new Date();
 
@@ -39,8 +43,8 @@ public class WordModel {
         wordToSave.setDateOfAddition(current);
         if (mean!=null)
         wordToSave.setMean(mean);
-        if (word!=null)
-        wordToSave.setIssue(word);
+        if (issue!=null)
+        wordToSave.setIssue(issue);
         wordToSave.setKnowledgeStatus(status);
         if (categoryView!=null)
         wordToSave.setCategory( ToModel.toCategory(categoryView));
@@ -49,6 +53,7 @@ public class WordModel {
         dao.createOrUpdate(wordToSave);
         fillWithData();
     }
+
 
     public void deleteFromDataBaseById(WordView wordView) throws SQLException {
         CommonDao dao = new CommonDao();
@@ -243,5 +248,13 @@ public class WordModel {
         }
     }
 
-
+    public void saveToDataBase(WordView wordView) throws SQLException {
+        Word wordToSave = new Word();
+        Date current = new Date();
+        wordToSave.setKnowledgeStatus(wordView.isKnowledgeStatus());
+        wordToSave.setIssue(wordView.getIssue());
+        wordToSave.setMean(wordView.getMean());
+        wordToSave.setDateOfAddition(current);
+        dao.createOrUpdate(wordToSave);
+    }
 }
