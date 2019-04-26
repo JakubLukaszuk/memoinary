@@ -672,6 +672,8 @@ public class MainFrameController {
         System.out.println(file);
         if (file!=null) {
             try {
+                List<WordView> wordsList = TextFileHandler.ReadTxtFile(file);
+                if (wordsList!=null)
                 Objects.requireNonNull(TextFileHandler.ReadTxtFile(file)).forEach(wordView -> {
                     try {
                        wordModel.saveToDataBase(wordView);
@@ -679,6 +681,9 @@ public class MainFrameController {
                         e.printStackTrace();
                     }
                 });
+                else {
+                    DialogUtils.confirmDialog(bundle.getString("message.badFileFormat"),bundle.getString("title.badFileFormat"));
+                }
                 wordModel.realoadDataFromDB();
             } catch (Exception e) {
                 e.printStackTrace();
