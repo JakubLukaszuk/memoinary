@@ -43,12 +43,17 @@
            </Menu>
            <Menu mnemonicParsing="false" text="%menu.dataActions">
                <MenuItem mnemonicParsing="false" onAction="#reloadData" text="%menuItem.reloadData" />
-               <MenuItem mnemonicParsing="false" onAction="#deleteSelectedWords" text="%menuItem.deleteSelected" />
+               <MenuItem mnemonicParsing="false" onAction="#deleteSelectedWords" text="%menuItem.deleteSelected"/>
                <MenuItem mnemonicParsing="false" onAction="#clearSelectedModifed" text="%menuItem.realoadSelected" />
            </Menu>
            <Menu mnemonicParsing="false" text="%menu.notification">
                <MenuItem mnemonicParsing="false" onAction="#setNotifications" text="%menuItem.setNotifications" />
                <MenuItem mnemonicParsing="false" onAction="#setOffNotifications" text="%menuItem.setNotificationOf" />
+           </Menu>
+           <Menu mnemonicParsing="false" text="%menu.selection">
+               <MenuItem mnemonicParsing="false" onAction="#selectAllItems" text="%menuItem.selectAll" />
+               <MenuItem mnemonicParsing="false" onAction="#unSelectAllItems" text="%menuItem.unselectAll" />
+               <MenuItem mnemonicParsing="false" onAction="#selectAllModifedItems" text="%menuItem.selectAllModifed" />
            </Menu>
        </MenuBar>
        <GridPane GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">

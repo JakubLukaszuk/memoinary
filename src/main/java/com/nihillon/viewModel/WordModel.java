@@ -56,7 +56,6 @@ public class WordModel {
 
 
     public void deleteFromDataBaseById(WordView wordView) throws SQLException {
-        CommonDao dao = new CommonDao();
         dao.deleteById(Word.class, wordView.getId());
     }
 
@@ -76,20 +75,6 @@ public class WordModel {
         DbManager.closeConnection();
     }
 
-//    public void setSelectedItems()
-//    {
-//        List<WordView> result = new LinkedList<>();
-//        for (WordView wordWiew : wordWiewList)
-//        {
-//            if (wordWiew.isChecked())
-//            {
-//                result.add(wordWiew);
-//            }
-//        }
-//        selectedItems = result;
-//        System.out.println(selectedItems);
-//
-//    }
 
     private List<WordView> getSelectedItems()
     {
@@ -107,6 +92,7 @@ public class WordModel {
 
     public void deleteSelectedWords() throws SQLException {
         //getSelectedItems().forEach(this::deleteFromDataBaseById);
+        System.out.println(getSelectedItems().get(0).getMean());
         getSelectedItems().forEach(item -> {
             try {
                 deleteFromDataBaseById(item);
@@ -183,7 +169,6 @@ public class WordModel {
 
 
     public void filtrWords(String mean, String issue, CategoryView categoryView, SubCategoryView subCategoryView) throws SQLException, ParseException {
-        System.out.println("mean: "+mean+" issue: "+issue+" categoryView: "+categoryView+" subCateogory: "+subCategoryView );
         fillWithData();
         if (categoryView!=null)
             filtrByCategory(categoryView, subCategoryView);
@@ -197,16 +182,17 @@ public class WordModel {
 
         if (subCategoryView != null) {
             for (WordView word : wordWiewList) {
-                if (word.getSubCategory() == subCategoryView)
+                if (word.getSubCategory().equals(subCategoryView))
                     result.add(word);
             }
 
         } else if (categoryView != null) {
             for (WordView word : wordWiewList) {
-                if (word.getCategory() == categoryView)
+                if (word.getCategory().equals(categoryView))
                     result.add(word);
             }
         }
+
         wordWiewList.clear();
         wordWiewList.addAll(result);
     }

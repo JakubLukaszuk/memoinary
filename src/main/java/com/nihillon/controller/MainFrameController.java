@@ -40,7 +40,6 @@ import java.util.ResourceBundle;
 @Component
 public class MainFrameController {
 
-
     private final CategoryModel categoryModel;
     private final WordModel wordModel;
     private final SubCategoryModel subCategoryModel;
@@ -67,7 +66,6 @@ public class MainFrameController {
     private ChoiceBox<CategoryView> categoryChoiceBox;
     @FXML
     private ChoiceBox<SubCategoryView> subCategoryChoiceBox;
-
 
 
     @Autowired
@@ -691,6 +689,24 @@ public class MainFrameController {
         }
     }
 
+    @FXML
+    private void selectAllItems(ActionEvent actionEvent) {
+        wordModel.getWordWiewList().forEach(wordView -> wordView.setChecked(true));
+    }
+
+    @FXML
+    private void unSelectAllItems(ActionEvent actionEvent) {
+        wordModel.getWordWiewList().forEach(wordView -> wordView.setChecked(false));
+    }
+
+    @FXML
+    private void selectAllModifedItems(ActionEvent actionEvent) {
+        for (WordView wordView: wordModel.getWordWiewList()) {
+            if (wordView.isModifed())
+                wordView.setChecked(true);
+        }
+    }
+
     private List<WordView> getSelectedWords(){
         List<WordView> wordViewList = new ArrayList<>();
         for (WordView word: wordModel.getWordWiewList()) {
@@ -699,4 +715,5 @@ public class MainFrameController {
         }
         return wordViewList;
     }
+
 }

@@ -51,6 +51,7 @@ public class CommonDao {
 
     public <T extends BaseModel, I> void deleteById(Class<T> cls, Integer id) throws SQLException {
         Dao<T, I> dao = getDao(cls);
+        dao.deleteById((I) id);
     }
 
     public <T extends BaseModel, I> T findByID(Class<T> cls, Integer id) throws SQLException {
