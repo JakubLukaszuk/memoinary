@@ -66,6 +66,8 @@ public class MainFrameController {
     private ChoiceBox<CategoryView> categoryChoiceBox;
     @FXML
     private ChoiceBox<SubCategoryView> subCategoryChoiceBox;
+    @FXML
+    private Button setInSelectedButton;
 
 
     @Autowired
@@ -690,20 +692,39 @@ public class MainFrameController {
     }
 
     @FXML
-    private void selectAllItems(ActionEvent actionEvent) {
+    private void selectAllItems() {
         wordModel.getWordWiewList().forEach(wordView -> wordView.setChecked(true));
     }
 
     @FXML
-    private void unSelectAllItems(ActionEvent actionEvent) {
+    private void unSelectAllItems() {
         wordModel.getWordWiewList().forEach(wordView -> wordView.setChecked(false));
     }
 
     @FXML
-    private void selectAllModifedItems(ActionEvent actionEvent) {
+    private void selectAllModifedItems() {
         for (WordView wordView: wordModel.getWordWiewList()) {
             if (wordView.isModifed())
                 wordView.setChecked(true);
+        }
+    }
+
+    @FXML
+    public void setInAllSelected() {
+        for (WordView wordView: wordModel.getWordWiewList()) {
+            if (categoryChoiceBox.getValue()!=null) {
+                wordView.setCategory(categoryChoiceBox.getValue());
+            } else {
+                wordView.setCategory(new CategoryView());
+            }
+            if (subCategoryChoiceBox.getValue()!=null) {
+                wordView.setSubCategory(subCategoryChoiceBox.getValue());
+            } else {
+                wordView.setSubCategory(new SubCategoryView());
+            }
+            wordView.setChecked(isKnownCheckBox.isSelected());
+            wordView.setModifed(true);
+            tableView.refresh();
         }
     }
 
