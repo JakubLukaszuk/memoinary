@@ -8,14 +8,12 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<?import javafx.scene.control.ToolBar?>
 <GridPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nihillon.controller.MainFrameController">
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -43,6 +41,7 @@
            <Menu mnemonicParsing="false" text="%menu.File">
                <MenuItem mnemonicParsing="false" onAction="#saveToTxtFile" text="%menuItem.saveTxt" />
                <MenuItem mnemonicParsing="false" onAction="#readTxtFile" text="%menuItem.readTxt" />
+               <MenuItem mnemonicParsing="false" onAction="#generatePdfFile" text="%menuItem.generatePdf" />
            </Menu>
            <Menu mnemonicParsing="false" text="%menu.dataActions">
                <MenuItem mnemonicParsing="false" onAction="#reloadData" text="%menuItem.reloadData" />

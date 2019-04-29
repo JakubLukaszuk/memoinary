@@ -1,9 +1,12 @@
 package com.nihillon.controller;
 
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Rectangle;
 import com.nihillon.App;
 import com.nihillon.utils.DialogUtils;
 import com.nihillon.utils.NotificationBar;
 import com.nihillon.utils.file.LoggerWriter;
+import com.nihillon.utils.file.pdf.PdfFileCreator;
 import com.nihillon.utils.file.txt.TextFileHandler;
 import com.nihillon.viewModel.*;
 import javafx.beans.property.SimpleObjectProperty;
@@ -29,6 +32,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -562,7 +566,7 @@ public class MainFrameController {
         if (wordViewListTmp.size()>0){
         final String FXML_NOTIFICATION_DIALOG_FXML = "/fxml/notification-options.fxml";
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setResources(ResourceBundle.getBundle("bundles.messagesData"));
+        fxmlLoader.setResources(bundle);
 
         fxmlLoader.setLocation(getClass().getResource(FXML_NOTIFICATION_DIALOG_FXML));
 
@@ -638,7 +642,7 @@ public class MainFrameController {
         if (wordViewListTmp.size()>0){
             final String FXML_NOTIFICATION_DIALOG_FXML = "/fxml/save-txt-options.fxml";
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setResources(ResourceBundle.getBundle("bundles.messagesData"));
+            fxmlLoader.setResources(bundle);
 
             fxmlLoader.setLocation(getClass().getResource(FXML_NOTIFICATION_DIALOG_FXML));
 
@@ -692,6 +696,55 @@ public class MainFrameController {
     }
 
     @FXML
+    private void generatePdfFile(ActionEvent actionEvent) {
+        List<WordView> wordViewListTmp = getSelectedWords();
+
+        if (wordViewListTmp.size()>0){
+            final String FXML_NOTIFICATION_DIALOG_FXML = "/fxml/create-pdf-options.fxml";
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setResources(bundle);
+
+            fxmlLoader.setLocation(getClass().getResource(FXML_NOTIFICATION_DIALOG_FXML));
+
+            Parent dialog = null;
+            try {
+                dialog = fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            CreatePdfOptionsController createPdfOptionsController = fxmlLoader.getController();
+
+            Scene scene =null;
+            assert dialog != null;
+            scene = new Scene(dialog);
+            scene.getStylesheets().add(App.class.getResource("/css/style.css").toExternalForm());
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.showAndWait();
+            String pattern = createPdfOptionsController.getSavePattern();
+            File file = createPdfOptionsController.getFile();
+            Rectangle pageSize = createPdfOptionsController.getPageFormat();
+            int fontSize = createPdfOptionsController.getFontSize();
+
+            if (file!=null){
+                try {
+                    PdfFileCreator.saveToPdf(wordViewListTmp, pattern,file, pageSize, bundle, fontSize);
+                    DialogUtils.confirmDialog(bundle.getString("dialog.PdfCreatedMessage"),bundle.getString("dialog.title.PdfCreated"));
+                } catch (DocumentException e) {
+                    DialogUtils.errorDialog(bundle.getString("error.documentException"),"error.saveTitle", e);
+                    LoggerWriter.writeLog("Document exception on save pdf.",e);
+                } catch (FileNotFoundException e) {
+                    DialogUtils.errorDialog(bundle.getString("error.fiIeNotFound"),"error.saveTitle", e);
+                    LoggerWriter.writeLog("File not found Exception on pdf save.",e);
+                }
+            }
+        }
+    }
+
+    @FXML
     private void selectAllItems() {
         wordModel.getWordWiewList().forEach(wordView -> wordView.setChecked(true));
     }
@@ -736,5 +789,6 @@ public class MainFrameController {
         }
         return wordViewList;
     }
+
 
 }

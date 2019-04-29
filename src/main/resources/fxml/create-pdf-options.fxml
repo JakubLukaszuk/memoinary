@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<GridPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.nihillon.controller.CreatePdfOptionsController">
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints minHeight="10.0" prefHeight="30.0" />
+        <RowConstraints />
+
+    </rowConstraints>
+    <columnConstraints>
+        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+
+
+    </columnConstraints>
+
+    <Label text="%title.saveTxtOptions" GridPane.columnSpan="2">
+        <opaqueInsets>
+            <Insets left="5.0" />
+        </opaqueInsets>
+        <GridPane.margin>
+            <Insets left="5.0" />
+        </GridPane.margin></Label>
+    <CheckBox fx:id="issueCheckBox" text="%column.mean" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <GridPane.margin>
+            <Insets left="5.0" />
+        </GridPane.margin></CheckBox>
+    <CheckBox fx:id="meanCheckBox" text="%column.issue" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <GridPane.margin>
+            <Insets left="5.0" />
+        </GridPane.margin></CheckBox>
+    <CheckBox fx:id="categoryCheckBox" text="%column.category" GridPane.columnIndex="2" GridPane.rowIndex="1">
+        <GridPane.margin>
+            <Insets left="5.0" />
+        </GridPane.margin></CheckBox>
+    <CheckBox fx:id="subCategoryCheckBox" text="%column.subCategory" GridPane.columnIndex="3" GridPane.rowIndex="1">
+        <GridPane.margin>
+            <Insets left="5.0" />
+        </GridPane.margin></CheckBox>
+    <CheckBox fx:id="knowladgeStatusCheckBox" text="%column.knowledge" GridPane.columnIndex="4" GridPane.rowIndex="1">
+        <GridPane.margin>
+            <Insets left="5.0" />
+        </GridPane.margin></CheckBox>
+    <Label text="%label.cardOrientation" GridPane.rowIndex="2">
+        <GridPane.margin>
+            <Insets left="5.0" />
+        </GridPane.margin>
+    </Label>
+    <RadioButton fx:id="radioVertically" GridPane.rowIndex="3" text="%radio.vertically">
+    <GridPane.margin>
+        <Insets left="5.0" />
+    </GridPane.margin>
+    </RadioButton>
+    <RadioButton fx:id="radioHorizonally" GridPane.rowIndex="3" text="%radio.horizontally" GridPane.columnIndex="1">
+        <GridPane.margin>
+            <Insets left="5.0" />
+        </GridPane.margin>
+    </RadioButton>
+    <ChoiceBox fx:id="fontSizeCheckBox" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+    <Label text="%label.fontSize" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+    <Button onAction="#generatePdfData" text="%button.start" GridPane.columnIndex="3" GridPane.rowIndex="2">
+        <GridPane.margin>
+            <Insets left="5.0" />
+        </GridPane.margin></Button>
+</GridPane>
