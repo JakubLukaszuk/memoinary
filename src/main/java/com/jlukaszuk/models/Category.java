@@ -20,9 +20,6 @@ public class Category implements BaseModel {
     @DatabaseField(columnName = "CATEGORY_NAME")
     private String category;
 
-    @DatabaseField(columnName = "DESCRIPTION")
-    private String description;
-
     @DatabaseField(columnName = "DATE_OF_ADDITION", dataType = DataType.DATE_STRING,
             format = "dd-MMM-yy")
     private Date dateOfAddition;
@@ -48,13 +45,6 @@ public class Category implements BaseModel {
         this.category = category;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public Date getDateOfAddition() {
         return dateOfAddition;
@@ -74,7 +64,6 @@ public class Category implements BaseModel {
                 "id=" + id +
                 ", subCategoryForeignCollection=" + subCategoryForeignCollection +
                 ", category='" + category + '\'' +
-                ", description='" + description + '\'' +
                 ", dateOfAddition=" + dateOfAddition +
                 '}';
     }

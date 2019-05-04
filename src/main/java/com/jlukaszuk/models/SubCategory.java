@@ -18,9 +18,6 @@ public class SubCategory implements BaseModel {
     @DatabaseField(columnName = "SUBCATEGORY_NAME")
     private String subCategory;
 
-    @DatabaseField(columnName = "DESCRIPTION")
-    private String description;
-
     @DatabaseField(columnName = "DATE_OF_ADDITION", dataType = DataType.DATE_STRING,
             format = "dd-MMM-yy")
     private Date dateOfAddition;
@@ -45,13 +42,6 @@ public class SubCategory implements BaseModel {
         this.subCategory = subCategory;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
 
     public Date getDateOfAddition() {
         return dateOfAddition;
@@ -68,10 +58,9 @@ public class SubCategory implements BaseModel {
         this.dateOfAddition = dateOfAddition;
     }
 
-    public SubCategory(Category category, String subCategory, String description, Date dateOfAddition) {
+    public SubCategory(Category category, String subCategory, Date dateOfAddition) {
         this.category = category;
         this.subCategory = subCategory;
-        this.description = description;
         this.dateOfAddition = dateOfAddition;
     }
 
@@ -83,7 +72,6 @@ public class SubCategory implements BaseModel {
                 "id=" + id +
                 ", category=" + category +
                 ", subCategory='" + subCategory + '\'' +
-                ", description='" + description + '\'' +
                 ", dateOfAddition=" + dateOfAddition +
                 '}';
     }

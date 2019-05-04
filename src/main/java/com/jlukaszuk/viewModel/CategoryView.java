@@ -14,7 +14,6 @@ public class CategoryView {
     private IntegerProperty id;
     private ObservableList<SubCategoryView> subCategories;
     private StringProperty categoryName;
-    private StringProperty description;
     private StringProperty dateOfAddition;
 
     public int getId() {
@@ -25,7 +24,6 @@ public class CategoryView {
         id = new SimpleIntegerProperty();
         subCategories = FXCollections.observableArrayList();
         categoryName = new SimpleStringProperty();
-        description = new SimpleStringProperty();
         dateOfAddition = new SimpleStringProperty();
     }
 
@@ -55,18 +53,6 @@ public class CategoryView {
 
     public void setCategoryName(String categoryName) {
         this.categoryName.setValue(categoryName);
-    }
-
-    public String getDescription() {
-        return description.get();
-    }
-
-    public StringProperty descriptionProperty() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description.set(description);
     }
 
     public String getDateOfAddition() {

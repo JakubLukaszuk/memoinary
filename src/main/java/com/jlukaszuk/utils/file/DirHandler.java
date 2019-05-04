@@ -11,9 +11,7 @@ public class DirHandler {
         File file = new File(pathname);
 
         if (!file.exists()) {
-            if (file.mkdir()) {
-                DialogUtils.informDialog( "just created: "+file.getAbsolutePath(),"Creating Directory");
-            } else {
+            if (!file.mkdir()) {
                 DialogUtils.informDialog( "creating: "+pathname+"floder failed","Creating Directory");
             }
         }

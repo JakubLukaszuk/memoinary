@@ -31,7 +31,6 @@ public class CategoryModel {
 
     public void saveToDataBase(String discription, String categoryName) throws SQLException, IOException {
         Category category = new Category();
-        category.setDescription(discription);
         category.setCategory(categoryName);
         category.setDateOfAddition(new Date());
         dao.createOrUpdate(category);

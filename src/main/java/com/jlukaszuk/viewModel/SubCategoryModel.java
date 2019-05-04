@@ -26,9 +26,8 @@ public class SubCategoryModel {
         this.dao = dao;
     }
 
-    public void saveToDataBase(String discription, String subCategoryName, CategoryView category) throws SQLException, IOException {
+    public void saveToDataBase( String subCategoryName, CategoryView category) throws SQLException, IOException {
         SubCategory subCategory = new SubCategory();
-        subCategory.setDescription(discription);
         subCategory.setSubCategory(subCategoryName);
         subCategory.setCategory(dao.findByID(Category.class, category.getId()));
         subCategory.setDateOfAddition(new Date());

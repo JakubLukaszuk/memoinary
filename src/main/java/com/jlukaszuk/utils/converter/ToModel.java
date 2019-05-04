@@ -22,7 +22,6 @@ public class ToModel {
             category.setCategory(categoryView.getCategoryName());
             //Sytem.out.println(categoryView.getDateOfAddition());
             category.setDateOfAddition(format.parse(categoryView.getDateOfAddition()));
-            category.setDescription(categoryView.getDescription());
         }
         return category;
     }
@@ -32,7 +31,6 @@ public class ToModel {
         subCategory.setId(subCategoryView.getId());
         subCategory.setSubCategory(subCategoryView.getSubCategoryName());
         subCategory.setCategory(toCategory(subCategoryView.getCategoryViewObjectProperty()));
-        subCategory.setDescription(subCategoryView.getDescription());
         subCategory.setDateOfAddition(format.parse(subCategoryView.getDateOfAddition()));
         return subCategory;
     }

@@ -15,8 +15,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 @SpringBootApplication
@@ -43,8 +41,6 @@ public class App extends Application {
             DialogUtils.errorDialog(bundle.getString("error.download"),bundle.getString("error.downloadTitle"));
             LoggerWriter.writeLog("initilaziation error", e);
         }
-
-
     }
 
 
@@ -61,11 +57,11 @@ public class App extends Application {
         primaryStage.setTitle(bundle.getString("application.title"));
         primaryStage.setScene(scene);
         scene.getStylesheets().add(App.class.getResource("/css/style.css").toExternalForm());
+        Exception exception = new Exception();
+        LoggerWriter.writeLog("cośtam", exception);
         primaryStage.sizeToScene();
         primaryStage.show();
-
     }
-
 
 
     @Override

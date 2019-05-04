@@ -391,7 +391,7 @@ public class MainFrameController {
         if (!StringUtils.isEmpty(tmpIssue) || !StringUtils.isEmpty(tmpMean))
         {
             try {
-                wordModel.saveToDataBase(issueTextFiled.getText(),meanTextField.getText(),categoryChoiceBox.getSelectionModel().getSelectedItem(),subCategoryChoiceBox.getSelectionModel().getSelectedItem(),isKnownCheckBox.isSelected());
+                wordModel.saveToDataBase(issueTextFiled.getText(),meanTextField.getText(),categoryChoiceBox.getSelectionModel().getSelectedItem(),subCategoryChoiceBox.getSelectionModel().getSelectedItem(),!isKnownCheckBox.isSelected());
                 tableView.refresh();
             }
             catch (ParseException | IOException | SQLException e)
@@ -434,7 +434,7 @@ public class MainFrameController {
         CategoryView categoryTmp = categoryChoiceBox.getSelectionModel().getSelectedItem();
         if (!StringUtils.isEmpty(tmpSubCategoryName) && categoryTmp!=null){
             try {
-                subCategoryModel.saveToDataBase("descriptionTmp", tmpSubCategoryName, categoryTmp);
+                subCategoryModel.saveToDataBase( tmpSubCategoryName, categoryTmp);
                 subCategoryTextField.setText("");
                 categoryModel.fillWithData();
                 wordModel.fillWithData();
@@ -606,6 +606,7 @@ public class MainFrameController {
     private void clearCategoryBox() {
         categoryChoiceBox.getSelectionModel().select(null);
         subCategoryChoiceBox.getSelectionModel().select(null);
+        subCategoryChoiceBox.setItems(FXCollections.observableArrayList());
         subCategoryChoiceBox.setItems(FXCollections.observableArrayList());
     }
 

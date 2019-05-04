@@ -8,7 +8,6 @@ public class SubCategoryView {
     private IntegerProperty id;
     private IntegerProperty categoryId;
     private StringProperty subCategoryName;
-    private StringProperty description;
     private StringProperty dateOfAddition;
     private ObjectProperty<CategoryView> categoryViewObjectProperty;
 
@@ -16,7 +15,6 @@ public class SubCategoryView {
         id = new SimpleIntegerProperty();
         categoryId = new SimpleIntegerProperty();
         subCategoryName = new SimpleStringProperty();
-        description = new SimpleStringProperty();
         dateOfAddition = new SimpleStringProperty();
         categoryViewObjectProperty = new SimpleObjectProperty<>();
     }
@@ -67,18 +65,6 @@ public class SubCategoryView {
 
     public void setSubCategoryName(String subCategoryName) {
         this.subCategoryName.set(subCategoryName);
-    }
-
-    public String getDescription() {
-        return description.get();
-    }
-
-    public StringProperty descriptionProperty() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description.set(description);
     }
 
     public String getDateOfAddition() {
