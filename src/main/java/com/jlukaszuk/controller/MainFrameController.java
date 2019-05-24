@@ -14,6 +14,7 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -246,6 +247,7 @@ public class MainFrameController {
                     setGraphic(null);
                 }
                 else {
+                    setTooltip(new Tooltip("Live is short, make most of it..!"));
                     textProperty().bind(new SimpleStringProperty(item));
                     comboBox.setItems(categoryModel.getCategoryViewList());
                     if (comboBox.getItems().size()<2){
@@ -404,8 +406,8 @@ public class MainFrameController {
         else {
             DialogUtils.informDialog(bundle.getString("dialog.empyFields"), bundle.getString("dialog.title.emptyFields"));
         }
-        categoryChoiceBox.setValue(null);
-        subCategoryChoiceBox.setValue(null);
+        //categoryChoiceBox.setValue(null);
+        //subCategoryChoiceBox.setValue(null);
 
     }
     @FXML
@@ -489,7 +491,6 @@ public class MainFrameController {
                 DialogUtils.errorDialog(bundle.getString("error.delete"),
                         bundle.getString("error.deleteTitle"));
             }
-            tableView.refresh();
             try {
                 subCategoryModel.deleteByCategory(category);
             } catch (IOException | SQLException e) {
@@ -497,7 +498,6 @@ public class MainFrameController {
                 DialogUtils.errorDialog(bundle.getString("error.delete"),
                         bundle.getString("error.deleteTitle"));
             }
-            category.getSubCategories().forEach(subCategoryView -> subCategoryChoiceBox.getItems().remove(subCategoryView));
             try {
                 categoryModel.deleteFromDataBaseById(category);
             } catch (SQLException | IOException e) {
@@ -505,7 +505,12 @@ public class MainFrameController {
                 DialogUtils.errorDialog(bundle.getString("error.delete"),
                         bundle.getString("error.deleteTitle"));
             }
+            List<SubCategoryView> subCategories = category.getSubCategories();
+            for (int i=0; i<subCategories.size(); i++){
+                subCategoryChoiceBox.getItems().remove(subCategories.get(i));
+            }
             categoryChoiceBox.getItems().remove(category);
+            tableView.refresh();
             clearSubCategoryBox();
             clearCategoryBox();
         }
@@ -692,7 +697,8 @@ public class MainFrameController {
                 List<WordView> wordsList = TextFileHandler.ReadTxtFile(file);
                 if (wordsList!=null)
                     Objects.requireNonNull(TextFileHandler.ReadTxtFile(file)).forEach(wordView -> {
-                        try {
+                        try
+                        {
                             wordModel.saveToDataBase(wordView);
                         } catch (SQLException e) {
                             LoggerWriter.writeLog("SQLexception at readFile",e);
@@ -700,7 +706,8 @@ public class MainFrameController {
                                     "error.saveTitle");
                         }
                     });
-                else {
+                else
+                    {
                     DialogUtils.informDialog(bundle.getString("message.badFileFormat"),bundle.getString("title.badFileFormat"));
                 }
                 wordModel.realoadDataFromDB();
@@ -730,9 +737,12 @@ public class MainFrameController {
             fxmlLoader.setLocation(getClass().getResource(FXML_NOTIFICATION_DIALOG_FXML));
 
             Parent dialog = null;
-            try {
+            try
+            {
                 dialog = fxmlLoader.load();
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 LoggerWriter.writeLog("IOException at loading PDF dialog", e);
                 DialogUtils.informDialog(bundle.getString("error.documentException"),bundle.getString("error.saveTitle"));
             }
@@ -752,14 +762,19 @@ public class MainFrameController {
             File file = createPdfOptionsController.getFile();
 
             if (file!=null){
-                try {
+                try
+                {
                     PdfFileCreator.saveToPdf(wordViewListTmp, createPdfOptionsController.getSavePattern(),file, createPdfOptionsController.getPageFormat(), bundle,createPdfOptionsController.getFontSize());
                     DialogUtils.informDialog(bundle.getString("dialog.PdfCreatedMessage"),bundle.getString("dialog.title.PdfCreated"));
-                } catch (DocumentException e) {
+                }
+                catch (DocumentException e)
+                {
                     DialogUtils.errorDialog(bundle.getString("error.documentException"),
                             "error.saveTitle");
                     LoggerWriter.writeLog("Document exception on save pdf.",e);
-                } catch (FileNotFoundException e) {
+                }
+                catch (FileNotFoundException e)
+                {
                     DialogUtils.errorDialog(bundle.getString("error.fiIeNotFound"),
                             "error.saveTitle");
                     LoggerWriter.writeLog("File not found Exception on pdf save.",e);
@@ -767,6 +782,7 @@ public class MainFrameController {
             }
         }
     }
+
 
     @FXML
     private void selectAllItems() {
@@ -788,15 +804,20 @@ public class MainFrameController {
 
     @FXML
     public void setInAllSelected() {
-        for (WordView wordView: wordModel.getWordWiewList()) {
-            if (categoryChoiceBox.getValue()!=null) {
+        for (WordView wordView: wordModel.getWordWiewList())
+        {
+            if (categoryChoiceBox.getValue()!=null)
+            {
                 wordView.setCategory(categoryChoiceBox.getValue());
-            } else {
+            } else
+                {
                 wordView.setCategory(new CategoryView());
             }
-            if (subCategoryChoiceBox.getValue()!=null) {
+            if (subCategoryChoiceBox.getValue()!=null)
+            {
                 wordView.setSubCategory(subCategoryChoiceBox.getValue());
-            } else {
+            } else
+                {
                 wordView.setSubCategory(new SubCategoryView());
             }
             wordView.setChecked(isKnownCheckBox.isSelected());
