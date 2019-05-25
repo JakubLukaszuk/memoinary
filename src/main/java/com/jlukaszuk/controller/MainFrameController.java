@@ -34,10 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @Component
 public class MainFrameController {
@@ -677,7 +674,7 @@ public class MainFrameController {
                 try {
                     TextFileHandler.SaveTxtFile(wordViewListTmp, saveTxtOptionsController.getSavePattern(), file);
                     DialogUtils.informDialog(bundle.getString("dialog.txtCreatedMessage"), bundle.getString("dialogTitle.txtFileCreted"));
-                } catch (IOException e) {
+                } catch (IOException | IllegalFormatFlagsException e) {
                     DialogUtils.errorDialog(bundle.getString("error.saveErrorMessage"),
                             bundle.getString("error.saveErrorTitle"));
                     LoggerWriter.writeLog("exception on save txt file ",e);
@@ -712,7 +709,7 @@ public class MainFrameController {
                 }
                 wordModel.realoadDataFromDB();
             }
-            catch (IOException e)
+            catch (IOException | NullPointerException e)
             {
                 DialogUtils.errorDialog(bundle.getString("error.IO.message"),bundle.getString("errorTitle.readFile"));
                 LoggerWriter.writeLog("IO exception at txtRead", e);
