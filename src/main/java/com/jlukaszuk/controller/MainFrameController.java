@@ -764,7 +764,7 @@ public class MainFrameController {
                     PdfFileCreator.saveToPdf(wordViewListTmp, createPdfOptionsController.getSavePattern(),file, createPdfOptionsController.getPageFormat(), bundle,createPdfOptionsController.getFontSize());
                     DialogUtils.informDialog(bundle.getString("dialog.PdfCreatedMessage"),bundle.getString("dialog.title.PdfCreated"));
                 }
-                catch (DocumentException e)
+                catch (DocumentException | NullPointerException | IllegalArgumentException e)
                 {
                     DialogUtils.errorDialog(bundle.getString("error.documentException"),
                             "error.saveTitle");
