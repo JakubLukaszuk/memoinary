@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class TextFileHandler {
 
-    private static Pattern _pattern = Pattern.compile("((\\{(\\d+)\\}\\s+\\-\\s+){0,2}\\{(\\d+)\\})");
+    private static Pattern _pattern = Pattern.compile("((\\{(\\d+)\\}\\s+\\-\\s+){0,2}\\{(\\d+)\\})" , Pattern.UNICODE_CHARACTER_CLASS);
 
     public static void SaveTxtFile(List<WordView> words, String formatPattern, File file) throws IOException {
 
@@ -38,9 +38,14 @@ public class TextFileHandler {
                     new FileInputStream(file), StandardCharsets.UTF_8));
 
             Optional<String> format = linesFirst.lines().findFirst();
+
+            for (int i = 0; i < format.get().toCharArray().length; i++) {
+                System.out.println(format.get().toCharArray()[i]+ ", "+i);
+            }
             linesFirst.close();
 
-            if (format.isPresent() && _pattern.matcher(format.get()).matches()) {
+            if (_pattern.matcher(format.get()).matches() || _pattern.matcher(format.get().substring(1)).matches()) {
+                //second check is for remove empty char from file that use UTF 8 format.
                 BufferedReader data = new BufferedReader(new InputStreamReader(
                         new FileInputStream(file), StandardCharsets.UTF_8));
                 List<WordView> wordViewList = new ArrayList<>();
@@ -59,7 +64,6 @@ public class TextFileHandler {
                     for (int i = 0; i < wordArray.length; i++) {
                         switch (patternValues[i]) {
                             case '0':
-                                System.out.println(wordArray[i] + "  F");
                                 wordView.setIssue(wordArray[i]);
                                 break;
                             case '1':
@@ -77,7 +81,6 @@ public class TextFileHandler {
                 data.close();
                 return wordViewList;
             }
-
         }
         else throw new NullPointerException();
         return null;

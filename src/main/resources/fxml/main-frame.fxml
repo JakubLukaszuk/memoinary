@@ -14,6 +14,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
+<?import com.jlukaszuk.controls.TextFieldLimited ?>
+
 <GridPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlukaszuk.controller.MainFrameController">
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
@@ -83,8 +85,8 @@
                </GridPane.margin></Button>
            </children>
        </GridPane>
-       <TextField fx:id="issueTextFiled" GridPane.columnIndex="3" GridPane.columnSpan="6" GridPane.rowIndex="1" />
-       <TextField fx:id="meanTextField" GridPane.columnIndex="3" GridPane.columnSpan="6" GridPane.rowIndex="2" />
+       <TextFieldLimited fx:id="issueTextFiled" GridPane.columnIndex="3" GridPane.columnSpan="6" GridPane.rowIndex="1" />
+       <TextFieldLimited fx:id="meanTextField" GridPane.columnIndex="3" GridPane.columnSpan="6" GridPane.rowIndex="2" />
        <Label text="%label.issue" GridPane.columnIndex="2" GridPane.rowIndex="1">
          <GridPane.margin>
             <Insets left="10.0" />
@@ -121,7 +123,7 @@
                <GridPane.margin>
                    <Insets left="10.0" />
                </GridPane.margin></Label>
-           <TextField fx:id="categoryTextField" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+           <TextFieldLimited fx:id="categoryTextField" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="2" />
            <Button onAction="#saveCategoryToDB" styleClass="saveButton" GridPane.columnIndex="3" GridPane.rowIndex="2">
                <opaqueInsets>
                    <Insets />
@@ -142,7 +144,7 @@
                <GridPane.margin>
                    <Insets left="10.0" />
                </GridPane.margin></Label>
-           <TextField fx:id="subCategoryTextField" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="7" />
+           <TextFieldLimited fx:id="subCategoryTextField" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="7" />
            <Button onAction="#saveSubCategoryToDB" styleClass="saveButton" GridPane.columnIndex="3" GridPane.rowIndex="7">
                <padding>
                    <Insets left="15.0" right="15.0" top="10.0" />

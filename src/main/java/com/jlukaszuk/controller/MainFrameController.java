@@ -823,6 +823,7 @@ public class MainFrameController {
         }
     }
 
+
     private List<WordView> getSelectedWords(){
         List<WordView> wordViewList = new ArrayList<>();
         for (WordView word: wordModel.getWordWiewList()) {

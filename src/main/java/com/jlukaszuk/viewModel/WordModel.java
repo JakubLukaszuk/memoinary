@@ -174,17 +174,18 @@ public class WordModel {
 
         if (subCategoryView != null) {
             for (WordView word : wordWiewList) {
-                if (word.getSubCategory().equals(subCategoryView))
+                if (word.getSubCategory().getSubCategoryName().equals(subCategoryView.getSubCategoryName()))
+                {
                     result.add(word);
+                }
             }
 
         } else if (categoryView != null) {
             for (WordView word : wordWiewList) {
-                if (word.getCategory().equals(categoryView))
+                if (word.getCategory().getCategoryName().equals(categoryView.getCategoryName()))
                     result.add(word);
             }
         }
-
         wordWiewList.clear();
         wordWiewList.addAll(result);
     }
