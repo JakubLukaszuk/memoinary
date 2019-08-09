@@ -39,9 +39,6 @@ public class TextFileHandler {
 
             Optional<String> format = linesFirst.lines().findFirst();
 
-            for (int i = 0; i < format.get().toCharArray().length; i++) {
-                System.out.println(format.get().toCharArray()[i]+ ", "+i);
-            }
             linesFirst.close();
 
             if (_pattern.matcher(format.get()).matches() || _pattern.matcher(format.get().substring(1)).matches()) {
@@ -53,7 +50,6 @@ public class TextFileHandler {
                 char[] patternValues = patternFormated.toCharArray();
 
                 data.lines().skip(1).forEach(s -> {
-                    System.out.println(s);
                     String[] wordArray = new String[1];
                     if (patternValues.length > 1)
                         wordArray = s.split("-");

@@ -587,7 +587,12 @@ public class MainFrameController {
             int displayTime = notificationDialogController.getDisplayTime();
 
             if (intreval > 0 && displayTime > 0 )
+            {
+                NotificationBar.getInstance().setWorkFlag(true);
                 NotificationBar.getInstance().generateNotifiacations(intreval,displayTime,wordViewListTmp,bundle.getString("application.title"));
+
+            }
+
 
         }
         else

@@ -41,12 +41,12 @@ public class NotificationBar {
                 if (workFlag) {
                     int index = (int) (Math.random() * (selectedItems.size()));
                     String message = String.format("%s - %s", selectedItems.get(index).getIssue(), selectedItems.get(index).getMean());
-                    displayTray(message,title ,period);
+                    displayTray(message,title ,period*1000);
                 } else {
                     this.cancel();
                 }
             }
-        }, 0, interval);
+        }, 0, interval*1000);
     }
 
 
