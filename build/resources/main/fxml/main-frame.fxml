@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<?import com.jlukaszuk.controls.TextFieldLimited ?>
+
+<GridPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.jlukaszuk.controller.MainFrameController">
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints />
+      <RowConstraints />
+
+   </rowConstraints>
+   <columnConstraints>
+      <ColumnConstraints percentWidth="100" />
+      <ColumnConstraints percentWidth="100" />
+      <ColumnConstraints percentWidth="100" />
+      <ColumnConstraints percentWidth="100" />
+      <ColumnConstraints percentWidth="100" />
+      <ColumnConstraints percentWidth="100" />
+      <ColumnConstraints percentWidth="100" />
+      <ColumnConstraints percentWidth="100" />
+      <ColumnConstraints />
+
+   </columnConstraints>
+   <children>
+       <MenuBar prefHeight="25.0" prefWidth="9.0" GridPane.columnIndex="0" GridPane.columnSpan="8">
+           <Menu mnemonicParsing="false" text="%menu.File">
+               <MenuItem mnemonicParsing="false" onAction="#saveToTxtFile" text="%menuItem.saveTxt" />
+               <MenuItem mnemonicParsing="false" onAction="#readTxtFile" text="%menuItem.readTxt" />
+               <MenuItem mnemonicParsing="false" onAction="#generatePdfFile" text="%menuItem.generatePdf" />
+           </Menu>
+           <Menu mnemonicParsing="false" text="%menu.dataActions">
+               <MenuItem mnemonicParsing="false" onAction="#reloadData" text="%menuItem.reloadData" />
+               <MenuItem mnemonicParsing="false" onAction="#deleteSelectedWords" text="%menuItem.deleteSelected" />
+               <MenuItem mnemonicParsing="false" onAction="#clearSelectedModifed" text="%menuItem.realoadSelected" />
+           </Menu>
+           <Menu mnemonicParsing="false" text="%menu.notification">
+               <MenuItem mnemonicParsing="false" onAction="#setNotifications" text="%menuItem.setNotifications" />
+               <MenuItem mnemonicParsing="false" onAction="#setOffNotifications" text="%menuItem.setNotificationOf" />
+           </Menu>
+           <Menu mnemonicParsing="false" text="%menu.selection">
+               <MenuItem mnemonicParsing="false" onAction="#selectAllItems" text="%menuItem.selectAll" />
+               <MenuItem mnemonicParsing="false" onAction="#unSelectAllItems" text="%menuItem.unselectAll" />
+               <MenuItem mnemonicParsing="false" onAction="#selectAllModifedItems" text="%menuItem.selectAllModifed" />
+           </Menu>
+       </MenuBar>
+       <GridPane GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
+           <rowConstraints>
+               <RowConstraints minHeight="10.0" prefHeight="30.0" />
+               <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           </rowConstraints>
+           <columnConstraints>
+               <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+           </columnConstraints>
+           <children>
+               <Button maxHeight="Infinity" maxWidth="Infinity" onAction="#UpdateWordsInDB" styleClass="updateButtton" GridPane.columnIndex="0" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
+               <GridPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </GridPane.margin></Button>
+               <Button maxHeight="Infinity" maxWidth="Infinity" onAction="#saveWordToDB" styleClass="saveButton" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
+               <GridPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </GridPane.margin></Button>
+               <Button maxHeight="Infinity" maxWidth="Infinity" onAction="#serchWords" styleClass="serchButton" GridPane.columnIndex="2" GridPane.columnSpan="1" GridPane.hgrow="ALWAYS" GridPane.rowSpan="2">
+               <GridPane.margin>
+                  <Insets left="5.0" right="5.0" />
+               </GridPane.margin></Button>
+           </children>
+       </GridPane>
+       <TextFieldLimited fx:id="issueTextFiled" GridPane.columnIndex="3" GridPane.columnSpan="6" GridPane.rowIndex="1" />
+       <TextFieldLimited fx:id="meanTextField" GridPane.columnIndex="3" GridPane.columnSpan="6" GridPane.rowIndex="2" />
+       <Label text="%label.issue" GridPane.columnIndex="2" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin></Label>
+       <Label text="%label.mean" GridPane.columnIndex="2" GridPane.rowIndex="2">
+         <padding>
+            <Insets left="10.0" />
+         </padding></Label>
+       <GridPane GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="3" GridPane.rowSpan="2" xmlns:fx="http://javafx.com/fxml/1">
+       <rowConstraints>
+           <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           <RowConstraints minHeight="10.0" prefHeight="30.0" />
+           <RowConstraints minHeight="10.0" prefHeight="30.0" />
+       </rowConstraints>
+       <columnConstraints>
+           <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+           <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+           <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+           <ColumnConstraints minWidth="10.0" prefWidth="100.0" />
+       </columnConstraints>
+       <children>
+           <Label text="%label.category" GridPane.columnSpan="3" GridPane.rowIndex="1">
+               <GridPane.margin>
+                   <Insets left="10.0" />
+               </GridPane.margin></Label>
+           <TextFieldLimited fx:id="categoryTextField" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="2" />
+           <Button onAction="#saveCategoryToDB" styleClass="saveButton" GridPane.columnIndex="3" GridPane.rowIndex="2">
+               <opaqueInsets>
+                   <Insets />
+               </opaqueInsets>
+               <padding>
+                   <Insets left="15.0" right="15.0" top="10.0" />
+               </padding></Button>
+           <ChoiceBox fx:id="categoryChoiceBox" maxWidth="Infinity" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="3" />
+           <Button onAction="#deleteCategory" text="%button.delete" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="4">
+               <GridPane.margin>
+                   <Insets left="10.0" />
+               </GridPane.margin></Button>
+           <Button onAction="#clearCategoryBox" text="%button.clear" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="4">
+               <GridPane.margin>
+                   <Insets left="15.0" />
+               </GridPane.margin></Button>
+           <Label text="%label.subcategory" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="6">
+               <GridPane.margin>
+                   <Insets left="10.0" />
+               </GridPane.margin></Label>
+           <TextFieldLimited fx:id="subCategoryTextField" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="7" />
+           <Button onAction="#saveSubCategoryToDB" styleClass="saveButton" GridPane.columnIndex="3" GridPane.rowIndex="7">
+               <padding>
+                   <Insets left="15.0" right="15.0" top="10.0" />
+               </padding>
+           </Button>
+           <ChoiceBox fx:id="subCategoryChoiceBox" maxWidth="Infinity" GridPane.columnIndex="0" GridPane.columnSpan="4" GridPane.rowIndex="8" />
+           <Button onAction="#deleteSubCategory" text="%button.delete" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="9">
+               <GridPane.margin>
+                   <Insets left="10.0" />
+               </GridPane.margin></Button>
+           <Button onAction="#clearSubCategoryBox" text="%button.clear" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="9">
+               <GridPane.margin>
+                   <Insets left="15.0" />
+               </GridPane.margin></Button>
+           <CheckBox fx:id="isKnownCheckBox" text="%checkbox.knowladge" GridPane.columnIndex="0" GridPane.columnSpan="3" GridPane.rowIndex="11">
+               <GridPane.margin>
+                   <Insets left="10.0" />
+               </GridPane.margin></CheckBox>
+           <Button fx:id="setInSelectedButton" onAction="#setInAllSelected" text="%button.setInAllSelected" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="12">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <GridPane.margin>
+                  <Insets top="5.0" />
+               </GridPane.margin></Button>
+           <Separator halignment="LEFT" prefWidth="50.0" valignment="BOTTOM" GridPane.columnSpan="4" GridPane.rowIndex="0" GridPane.valignment="BOTTOM" />
+           <Separator halignment="LEFT" prefWidth="50.0" valignment="BOTTOM" GridPane.columnSpan="4" GridPane.rowIndex="5" GridPane.valignment="BOTTOM" />
+           <Separator halignment="LEFT" prefWidth="50.0" valignment="BOTTOM" GridPane.columnSpan="4" GridPane.rowIndex="11" GridPane.valignment="BOTTOM" />
+       </children>
+   </GridPane>
+       <fx:include source="table.fxml" />
+   </children>
+</GridPane>
