@@ -11,10 +11,8 @@
         <Label text=""/>
     </placeholder>
     <columns>
-        <TableColumn fx:id="categoryColumn" maxWidth="Infinity" text="%column.category">
-
-</TableColumn>
-        <TableColumn fx:id="subCategoryColumn" maxWidth="Infinity" text="%column.subCategory" />
+        <TableColumn fx:id="categoryColumn" maxWidth="Infinity" text="%column.category" sortable="false"/>
+        <TableColumn fx:id="subCategoryColumn" maxWidth="Infinity" text="%column.subCategory" sortable="false" />
         <TableColumn fx:id="issueColumn" maxWidth="Infinity" text="%column.issue" />
         <TableColumn fx:id="meanColumn" maxWidth="Infinity" text="%column.mean" />
         <TableColumn fx:id="statusColumn" maxWidth="Infinity" text="%column.knowledge" />

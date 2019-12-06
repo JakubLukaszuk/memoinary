@@ -4,6 +4,7 @@ import com.itextpdf.text.DocumentException;
 import com.jlukaszuk.App;
 import com.jlukaszuk.utils.DialogUtils;
 import com.jlukaszuk.utils.NotificationBar;
+import com.jlukaszuk.utils.converter.ToModel;
 import com.jlukaszuk.utils.file.LoggerWriter;
 import com.jlukaszuk.utils.file.pdf.PdfFileCreator;
 import com.jlukaszuk.utils.file.txt.TextFileHandler;
@@ -49,8 +50,6 @@ public class MainFrameController {
     @FXML
     private CheckBox isKnownCheckBox;
     @FXML
-    private MenuBar menuBar;
-    @FXML
     private TableView<WordView> tableView;
     @FXML
     private TableColumn<WordView, String> issueColumn, meanColumn;
@@ -64,8 +63,7 @@ public class MainFrameController {
     private ChoiceBox<CategoryView> categoryChoiceBox;
     @FXML
     private ChoiceBox<SubCategoryView> subCategoryChoiceBox;
-    @FXML
-    private Button setInSelectedButton;
+
 
 
     @Autowired
@@ -392,6 +390,8 @@ public class MainFrameController {
             try {
                 wordModel.saveToDataBase(issueTextFiled.getText(),meanTextField.getText(),categoryChoiceBox.getSelectionModel().getSelectedItem(),subCategoryChoiceBox.getSelectionModel().getSelectedItem(),!isKnownCheckBox.isSelected());
                 tableView.refresh();
+                issueTextFiled.setText("");
+                meanTextField.setText("");
             }
             catch (ParseException | IOException | SQLException e)
             {
@@ -403,6 +403,7 @@ public class MainFrameController {
         else {
             DialogUtils.informDialog(bundle.getString("dialog.empyFields"), bundle.getString("dialog.title.emptyFields"));
         }
+
         //categoryChoiceBox.setValue(null);
         //subCategoryChoiceBox.setValue(null);
 
@@ -515,22 +516,35 @@ public class MainFrameController {
 
     @FXML
     private void UpdateWordsInDB() {
-        try {
-            wordModel.updateInDataBase();
+        boolean isUpdateable = true;
+        for (WordView wordView: wordModel.getWordWiewList()) {
+            if (wordView.isModifed())
+                if (wordView.getCategory() == null || wordView.getSubCategory() == null)
+                  isUpdateable = false;
         }
-        catch (ParseException e)
+        if (isUpdateable)
         {
-            LoggerWriter.writeLog("exception parse at updating Words in to database", e);
-            DialogUtils.errorDialog(bundle.getString("error.save"),
-                    bundle.getString("error.saveTitle"));
+            try {
+                wordModel.updateInDataBase();
+            }
+            catch (ParseException e)
+            {
+                LoggerWriter.writeLog("exception parse at updating Words in to database", e);
+                DialogUtils.errorDialog(bundle.getString("error.save"),
+                        bundle.getString("error.saveTitle"));
+            }
+            catch (IOException  | SQLException e)
+            {
+                LoggerWriter.writeLog("exception sql at updating Words in to database", e);
+                DialogUtils.errorDialog(bundle.getString("error.save"),
+                        bundle.getString("error.saveTitle"));
+            }
+            tableView.refresh();
         }
-        catch (IOException  | SQLException e)
-        {
-            LoggerWriter.writeLog("exception sql at updating Words in to database", e);
-            DialogUtils.errorDialog(bundle.getString("error.save"),
-                    bundle.getString("error.saveTitle"));
+        else {
+            DialogUtils.informDialog(bundle.getString("infoSetSubCategory"),bundle.getString("error.saveTitle"));
         }
-        tableView.refresh();
+
     }
 
     @FXML
@@ -772,13 +786,13 @@ public class MainFrameController {
                 catch (DocumentException | NullPointerException | IllegalArgumentException e)
                 {
                     DialogUtils.errorDialog(bundle.getString("error.documentException"),
-                            "error.saveTitle");
+                            bundle.getString("error.saveTitle"));
                     LoggerWriter.writeLog("Document exception on save pdf.",e);
                 }
                 catch (FileNotFoundException e)
                 {
                     DialogUtils.errorDialog(bundle.getString("error.fiIeNotFound"),
-                            "error.saveTitle");
+                            bundle.getString("error.saveTitle"));
                     LoggerWriter.writeLog("File not found Exception on pdf save.",e);
                 }
             }
@@ -808,24 +822,26 @@ public class MainFrameController {
     public void setInAllSelected() {
         for (WordView wordView: wordModel.getWordWiewList())
         {
-            if (categoryChoiceBox.getValue()!=null)
+            if (wordView.isChecked())
             {
-                wordView.setCategory(categoryChoiceBox.getValue());
-            } else
+                if (categoryChoiceBox.getValue()!=null)
                 {
-                wordView.setCategory(new CategoryView());
-            }
-            if (subCategoryChoiceBox.getValue()!=null)
-            {
-                wordView.setSubCategory(subCategoryChoiceBox.getValue());
-            } else
+                    wordView.setCategory(categoryChoiceBox.getValue());
+                } else
                 {
-                wordView.setSubCategory(new SubCategoryView());
+                    wordView.setCategory(new CategoryView());
+                }
+                if (subCategoryChoiceBox.getValue()!=null)
+                {
+                    wordView.setSubCategory(subCategoryChoiceBox.getValue());
+                } else {
+                    wordView.setSubCategory(new SubCategoryView());
+                }
+                wordView.setKnowledgeStatus(!isKnownCheckBox.isSelected());
+                wordView.setModifed(true);
             }
-            wordView.setChecked(isKnownCheckBox.isSelected());
-            wordView.setModifed(true);
-            tableView.refresh();
         }
+        tableView.refresh();
     }
 
 
@@ -839,4 +855,11 @@ public class MainFrameController {
     }
 
 
+    public void showMenageDataInfo() {
+        DialogUtils.informDialog(bundle.getString("info.DataMenage"),bundle.getString("title.help"));
+    }
+
+    public void showDataIssuesInfo() {
+        DialogUtils.informDialog(bundle.getString("info.DataErrors"),bundle.getString("title.help"));
+    }
 }

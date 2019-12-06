@@ -59,6 +59,11 @@
                <MenuItem mnemonicParsing="false" onAction="#unSelectAllItems" text="%menuItem.unselectAll" />
                <MenuItem mnemonicParsing="false" onAction="#selectAllModifedItems" text="%menuItem.selectAllModifed" />
            </Menu>
+           <Menu mnemonicParsing="false" text="%menu.help">
+               <MenuItem mnemonicParsing="false" onAction="#showMenageDataInfo" text="%menuItem.menageData" />
+               <MenuItem mnemonicParsing="false" onAction="#showDataIssuesInfo" text="%menuItem.dataIssues" />
+           </Menu>
+
        </MenuBar>
        <GridPane GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
            <rowConstraints>

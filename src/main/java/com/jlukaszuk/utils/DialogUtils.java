@@ -21,6 +21,7 @@ public class DialogUtils {
         alert.setHeaderText(message);
         alert.getDialogPane().getStylesheets().add(DialogUtils.class.getResource("/css/style.css").toExternalForm());
         alert.getDialogPane().getStyleClass().add("dialog");
+        alert.getDialogPane().setMaxWidth(600);
         alert.showAndWait();
     }
 

@@ -1,0 +1,6 @@
+gru 06, 2019 9:52:15 PM com.jlukaszuk.utils.file.LoggerWriter writeLog
+INFO: coœtam
+stacktrace: [com.jlukaszuk.App.start(App.java:60), javafx.graphics/com.sun.javafx.application.LauncherImpl.lambda$launchApplication1$9(Unknown Source), javafx.graphics/com.sun.javafx.application.PlatformImpl.lambda$runAndWait$11(Unknown Source), javafx.graphics/com.sun.javafx.application.PlatformImpl.lambda$runLater$9(Unknown Source), java.base/java.security.AccessController.doPrivileged(Native Method), javafx.graphics/com.sun.javafx.application.PlatformImpl.lambda$runLater$10(Unknown Source), javafx.graphics/com.sun.glass.ui.InvokeLaterDispatcher$Future.run(Unknown Source), javafx.graphics/com.sun.glass.ui.win.WinApplication._runLoop(Native Method), javafx.graphics/com.sun.glass.ui.win.WinApplication.lambda$runLoop$3(Unknown Source), java.base/java.lang.Thread.run(Unknown Source)]
+message: null
+class: class java.lang.Exception
+toString: java.lang.Exception

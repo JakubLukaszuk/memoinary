@@ -58,6 +58,7 @@ public class TextFileHandler {
 
                     WordView wordView = new WordView();
                     for (int i = 0; i < wordArray.length; i++) {
+                        if (patternValues[i] == '2')
                         switch (patternValues[i]) {
                             case '0':
                                 wordView.setIssue(wordArray[i]);
